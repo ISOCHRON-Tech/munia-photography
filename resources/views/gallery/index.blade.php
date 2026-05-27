@@ -4,16 +4,26 @@
 @section('meta_description', 'Browse the full photography collection.')
 
 @section('content')
-<section data-page="gallery" class="pt-28 pb-20 px-4 md:px-8 xl:px-16">
+<section data-page="gallery" class="pt-28 pb-20 px-4 md:px-8 xl:px-16 relative">
+
+    {{-- Three.js ambient dust background --}}
+    <canvas id="gallery-bg" aria-hidden="true"></canvas>
 
     {{-- ── Header ── --}}
-    <div class="mb-12 text-center">
-        <h1 class="font-display text-5xl md:text-7xl tracking-tight mb-4 text-[#f5f0eb]">
+    <div class="mb-12 text-center relative" style="background-color:#fff0f5;">
+        <h1 class="font-display text-5xl md:text-7xl tracking-tight mb-4 text-[#1a0d14]">
             Gallery
         </h1>
         <p class="text-[#9e9e9e] text-sm tracking-widest uppercase">
             {{ $items->total() }} photographs
         </p>
+
+        {{-- Hello Kitty decoration --}}
+        <img src="/images/kitty/kitty-kawaii.png"
+             alt="" aria-hidden="true"
+             class="kitty-deco hidden md:block"
+             style="top:50%;right:-2rem;transform:translateY(-50%);width:clamp(140px,13vw,200px);z-index:5;background-color:#fff0f5;"
+             loading="lazy" draggable="false">
     </div>
 
     {{-- ── Category filter ── --}}

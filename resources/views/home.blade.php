@@ -27,6 +27,8 @@
 ══════════════════════════════════════════════════════════════ --}}
 <section class="hp-hero" id="hp-hero" aria-label="Introduction">
 
+    {{-- Ambient Three.js particles (spawned by landing.js post-preloader) --}}
+    <canvas id="hero-ambient-canvas" aria-hidden="true"></canvas>
 
     {{-- Background photo --}}
     @if($featured->isNotEmpty() && $featured->first()->public_url)
@@ -82,6 +84,13 @@
         </div>
         <span>scroll</span>
     </div>
+
+    {{-- ── Hello Kitty ── --}}
+    <img src="/images/kitty/kitty-full.png"
+         alt="" aria-hidden="true"
+         class="kitty-deco hidden md:block"
+         style="bottom:0;right:3%;width:clamp(180px,18vw,280px);z-index:2;"
+         loading="lazy" draggable="false">
 
 </section>
 
@@ -284,6 +293,13 @@
         </a>
         <div class="hp-contact__rule" data-hp-reveal aria-hidden="true"></div>
     </div>
+
+    {{-- ── Hello Kitty ── --}}
+    <img src="/images/kitty/kitty-balloons.png"
+         alt="" aria-hidden="true"
+         class="kitty-deco hidden md:block"
+         style="bottom:0;right:1%;width:clamp(160px,16vw,240px);z-index:3;background-color:#fff0f5;"
+         loading="lazy" draggable="false">
 
 </section>
 

@@ -1,5 +1,7 @@
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { animate } from 'motion'
+import { createGalleryScene } from './three-scenes'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -7,9 +9,92 @@ gsap.registerPlugin(ScrollTrigger)
 let lightboxActive = false
 
 export function initGallery() {
+    initGalleryBg()
+    animateGalleryHeader()
     revealOnScroll()
+    initCardTilts()
     initLazyImages()
     initLightbox()
+}
+
+// ─── Three.js ambient dust background ────────────────────────────────────────
+function initGalleryBg() {
+    const canvas = document.getElementById('gallery-bg')
+    if (!canvas) return
+    createGalleryScene(canvas)
+    // Fade in gradually
+    gsap.to(canvas, { opacity: 1, duration: 3.5, ease: 'power2.out', delay: 0.3 })
+}
+
+// ─── Gallery header character entrance ───────────────────────────────────────
+function animateGalleryHeader() {
+    const h1 = document.querySelector('[data-page="gallery"] h1')
+    if (!h1) return
+
+    const raw = h1.textContent
+    h1.setAttribute('aria-label', raw)
+    h1.innerHTML = [...raw].map(ch =>
+        `<span class="gallery-char" style="display:inline-block">${ch === ' ' ? '&nbsp;' : ch}</span>`
+    ).join('')
+
+    const chars = h1.querySelectorAll('.gallery-char')
+    animate(chars, {
+        opacity:   [0, 1],
+        transform: ['translateY(40px) skewY(4deg)', 'translateY(0px) skewY(0deg)'],
+    }, {
+        delay:    (_, i) => i * 0.045,
+        duration: 0.65,
+        easing:   [0.16, 1, 0.3, 1],
+    })
+}
+
+// ─── 3D perspective card tilt ─────────────────────────────────────────────────
+function initCardTilts() {
+    const cards = document.querySelectorAll('.gallery-item')
+    if (!cards.length) return
+
+    cards.forEach(card => {
+        // Mouse move: live tilt
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect()
+            const cx   = (e.clientX - rect.left) / rect.width  - 0.5
+            const cy   = (e.clientY - rect.top)  / rect.height - 0.5
+
+            gsap.to(card, {
+                rotateX:             -cy * 14,
+                rotateY:              cx * 14,
+                transformPerspective: 900,
+                scale:                1.035,
+                duration:             0.22,
+                ease:                 'power2.out',
+                overwrite:            'auto',
+            })
+
+            // Moving glint highlight via CSS custom property
+            card.style.setProperty('--gx', `${(cx + 0.5) * 100}%`)
+            card.style.setProperty('--gy', `${(cy + 0.5) * 100}%`)
+        })
+
+        // Mouse leave: spring back with elastic overshoot
+        card.addEventListener('mouseleave', () => {
+            gsap.to(card, {
+                rotateX:  0,
+                rotateY:  0,
+                scale:    1,
+                duration: 0.85,
+                ease:     'elastic.out(1, 0.65)',
+                overwrite: 'auto',
+            })
+        })
+
+        // Click pulse
+        card.addEventListener('mousedown', () => {
+            gsap.to(card, { scale: 0.97, duration: 0.12, overwrite: 'auto' })
+        })
+        card.addEventListener('mouseup', () => {
+            gsap.to(card, { scale: 1.035, duration: 0.2, ease: 'power2.out', overwrite: 'auto' })
+        })
+    })
 }
 
 // ─── Scroll-triggered reveal ─────────────────────────────────────────────────

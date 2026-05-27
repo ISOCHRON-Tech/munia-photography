@@ -18,57 +18,82 @@
 
     {{-- Preconnect for performance --}}
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=inter:400,500,600|playfair-display:400,700i&display=swap" rel="stylesheet">
+    <link href="https://fonts.bunny.net/css?family=nunito:400,500,600,700|pacifico:400&display=swap" rel="stylesheet">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     @stack('head')
 </head>
-<body class="bg-[#0a0a0a] text-[#f5f0eb] antialiased" x-data>
+<body class="bg-[#fff0f5] text-[#1a0d14] antialiased">
 
     {{-- ══ Navigation ══ --}}
-    <header class="fixed top-0 inset-x-0 z-50 mix-blend-difference" x-data="{ open: false }">
-        <nav class="flex items-center justify-between px-6 md:px-12 py-5"
-             role="navigation" aria-label="Main navigation">
+    <header id="main-nav" class="nav-header" role="banner">
+        <nav class="nav-bar" role="navigation" aria-label="Main navigation">
 
-            <a href="{{ route('home') }}"
-               class="font-display text-lg tracking-[0.35em] uppercase text-[#f5f0eb] hover:text-[#c9a84c] transition-colors">
-                Monea
+            {{-- Logo --}}
+            <a href="{{ route('home') }}" id="nav-logo" class="nav-logo" aria-label="Monea — Home">
+                <span class="nav-logo__l">M</span><span
+                    class="nav-logo__l">O</span><span
+                    class="nav-logo__l">N</span><span
+                    class="nav-logo__l">E</span><span
+                    class="nav-logo__l">A</span>
             </a>
 
-            {{-- Desktop nav --}}
-            <ul class="hidden md:flex items-center gap-10">
-                <li><a href="{{ route('gallery.index') }}" class="nav-link {{ request()->routeIs('gallery.*') ? 'active' : '' }}">Gallery</a></li>
-                <li><a href="{{ route('stories.index') }}" class="nav-link {{ request()->routeIs('stories.*') ? 'active' : '' }}">Stories</a></li>
+            {{-- Desktop links --}}
+            <ul class="hidden md:flex items-center gap-10" id="nav-links">
+                <li>
+                    <a href="{{ route('gallery.index') }}"
+                       class="nav-link {{ request()->routeIs('gallery.*') ? 'active' : '' }}">
+                        <span class="nav-link__rail">
+                            <span class="nav-link__word">Gallery</span>
+                            <span class="nav-link__word nav-link__word--gold" aria-hidden="true">Gallery</span>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('stories.index') }}"
+                       class="nav-link {{ request()->routeIs('stories.*') ? 'active' : '' }}">
+                        <span class="nav-link__rail">
+                            <span class="nav-link__word">Stories</span>
+                            <span class="nav-link__word nav-link__word--gold" aria-hidden="true">Stories</span>
+                        </span>
+                    </a>
+                </li>
             </ul>
 
             {{-- Mobile hamburger --}}
-            <button class="md:hidden flex flex-col gap-[5px] cursor-pointer z-10"
-                    @click="open = !open" aria-label="Toggle menu">
-                <span class="w-6 h-px bg-[#f5f0eb] transition-all"
-                      :class="open ? 'rotate-45 translate-y-[7px]' : ''"></span>
-                <span class="w-6 h-px bg-[#f5f0eb] transition-all"
-                      :class="open ? 'opacity-0' : ''"></span>
-                <span class="w-6 h-px bg-[#f5f0eb] transition-all"
-                      :class="open ? '-rotate-45 -translate-y-[7px]' : ''"></span>
+            <button id="nav-burger" class="md:hidden flex flex-col gap-[6px] cursor-pointer z-10 py-1 px-1"
+                    aria-label="Open menu" aria-expanded="false">
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
             </button>
         </nav>
-
-        {{-- Mobile drawer --}}
-        <div class="md:hidden fixed inset-0 bg-[#0a0a0a]/98 flex items-center justify-center z-40 transition-all duration-500"
-             :class="open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'"
-             x-show="open" x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 -translate-y-4"
-             x-transition:enter-end="opacity-100 translate-y-0"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100"
-             x-transition:leave-end="opacity-0">
-            <ul class="flex flex-col items-center gap-10 text-2xl">
-                <li><a href="{{ route('gallery.index') }}" class="nav-link" @click="open=false">Gallery</a></li>
-                <li><a href="{{ route('stories.index') }}" class="nav-link" @click="open=false">Stories</a></li>
-            </ul>
-        </div>
     </header>
+
+    {{-- Mobile full-screen drawer --}}
+    <div id="nav-drawer" class="nav-drawer pointer-events-none" role="dialog" aria-modal="true" aria-label="Navigation">
+
+        {{-- Decorative corner rule --}}
+        <span class="nav-drawer__rule" aria-hidden="true"></span>
+
+        <nav aria-label="Mobile navigation">
+            <ul class="flex flex-col items-start gap-8">
+                <li class="nav-drawer__item">
+                    <a href="{{ route('gallery.index') }}" class="nav-drawer__link {{ request()->routeIs('gallery.*') ? 'active' : '' }}">
+                        <span class="nav-drawer__num">01</span>Gallery
+                    </a>
+                </li>
+                <li class="nav-drawer__item">
+                    <a href="{{ route('stories.index') }}" class="nav-drawer__link {{ request()->routeIs('stories.*') ? 'active' : '' }}">
+                        <span class="nav-drawer__num">02</span>Stories
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <p class="nav-drawer__brand" aria-hidden="true">Monea</p>
+    </div>
 
     {{-- ══ Main Content ══ --}}
     <main>
@@ -87,5 +112,9 @@
     </footer>
 
     @stack('scripts')
+
+    {{-- Custom spring cursor (desktop only) --}}
+    <div id="cursor-dot"  aria-hidden="true"></div>
+    <div id="cursor-ring" aria-hidden="true"></div>
 </body>
 </html>

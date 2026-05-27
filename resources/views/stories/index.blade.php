@@ -4,20 +4,32 @@
 @section('meta_description', 'Field notes, travel stories, and essays on photography.')
 
 @section('content')
-<section class="pt-28 pb-20 px-4 md:px-8 xl:px-16">
+<section data-page="stories" class="pt-28 pb-20 px-4 md:px-8 xl:px-16">
 
-    <header class="mb-16 text-center">
-        <h1 class="font-display text-5xl md:text-7xl tracking-tight mb-4">Stories</h1>
-        <p class="text-[#9e9e9e] text-sm tracking-widest uppercase">Field notes & essays</p>
+    <header class="mb-16 text-center relative overflow-hidden" style="background-color:#fff0f5;">
+        {{-- Three.js wave mesh background --}}
+        <canvas id="stories-bg" aria-hidden="true"></canvas>
+
+        <div class="relative z-10 py-12">
+            <h1 class="font-display text-5xl md:text-7xl tracking-tight mb-4">Stories</h1>
+            <p class="text-[#c4607a] text-sm tracking-widest uppercase">Field notes &amp; essays</p>
+        </div>
+
+        {{-- Hello Kitty fairy decoration --}}
+        <img src="/images/kitty/kitty-colorful.png"
+             alt="" aria-hidden="true"
+             class="kitty-deco hidden md:block"
+             style="bottom:0;right:4%;width:clamp(120px,12vw,180px);z-index:2;background-color:#fff0f5;"
+             loading="lazy" draggable="false">
     </header>
 
     @if($stories->isEmpty())
-    <div class="text-center text-[#9e9e9e] py-32 text-lg">No stories published yet.</div>
+    <div class="text-center text-[#c4607a] py-32 text-lg">No stories published yet.</div>
     @else
     <div class="max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
         @foreach($stories as $story)
         <a href="{{ route('stories.show', $story->slug) }}"
-           class="group block rounded overflow-hidden bg-[#1a1a1a] hover:bg-[#222] transition-colors">
+           class="story-card group block rounded overflow-hidden bg-[#fff0f5] transition-colors">
 
             {{-- Banner thumbnail --}}
             @if($story->banner_url)
@@ -29,20 +41,20 @@
                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
             </div>
             @else
-            <div class="aspect-video bg-[#2e2e2e]"></div>
+            <div class="aspect-video bg-[#ffcde8]"></div>
             @endif
 
             <div class="p-6 space-y-3">
-                <p class="text-xs text-[#9e9e9e] tracking-widest uppercase">
+                <p class="text-xs text-[#c4607a] tracking-widest uppercase">
                     {{ $story->published_at?->format('M j, Y') }}
                     &nbsp;·&nbsp;
                     {{ $story->reading_time_minutes }} min read
                 </p>
-                <h2 class="font-display text-xl text-[#f5f0eb] group-hover:text-[#c9a84c] transition-colors leading-snug">
+                <h2 class="font-display text-xl text-[#1a0d14] group-hover:text-[#ff1493] transition-colors leading-snug">
                     {{ $story->title }}
                 </h2>
                 @if($story->meta_description)
-                <p class="text-[#9e9e9e] text-sm leading-relaxed line-clamp-3">{{ $story->meta_description }}</p>
+                <p class="text-[#c4607a] text-sm leading-relaxed line-clamp-3">{{ $story->meta_description }}</p>
                 @endif
             </div>
         </a>

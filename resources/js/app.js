@@ -5,6 +5,9 @@ import { initPreloader } from './preloader'
 import { initLanding } from './landing'
 import { initGallery } from './gallery'
 import { initStory } from './story'
+import { initNav } from './nav'
+import { initCursor } from './cursor'
+import { initStoriesIndex } from './stories-index'
 
 // ─── Alpine ──────────────────────────────────────────────────────────────────
 Alpine.plugin(Focus)
@@ -14,6 +17,8 @@ Alpine.start()
 // ─── Page-specific modules ────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     initPreloader()
+    initNav()
+    initCursor()
 
     if (document.querySelector('[data-page="home"]')) {
         initLanding()
@@ -21,6 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (document.querySelector('[data-page="gallery"]')) {
         initGallery()
+    }
+
+    if (document.querySelector('[data-page="stories"]')) {
+        initStoriesIndex()
     }
 
     if (document.querySelector('[data-page="story"]')) {

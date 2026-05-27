@@ -10,7 +10,7 @@
 
 {{-- Reading progress bar --}}
 <div id="reading-progress"
-     class="fixed top-0 left-0 h-[2px] bg-[#c9a84c] z-50 w-full origin-left"
+     class="fixed top-0 left-0 h-[2px] bg-[#ff1493] z-50 w-full origin-left"
      aria-hidden="true"></div>
 
 <article data-page="story" class="pt-24 pb-24">
@@ -22,18 +22,18 @@
              alt="{{ $story->title }}"
              class="parallax-img"
              decoding="async">
-        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#0a0a0a]/30 to-[#0a0a0a]"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#fff0f5]/30 to-[#fff0f5]"></div>
     </div>
     @endif
 
     {{-- ── Header ── --}}
     <header class="max-w-3xl mx-auto px-6 md:px-8 mb-14">
-        <p class="text-xs text-[#9e9e9e] tracking-widest uppercase mb-4">
+        <p class="text-xs text-[#c4607a] tracking-widest uppercase mb-4">
             {{ $story->published_at?->format('F j, Y') }}
             &nbsp;·&nbsp;
             {{ $story->reading_time_minutes }} min read
         </p>
-        <h1 class="font-display text-4xl md:text-6xl leading-tight text-[#f5f0eb] mb-0">
+        <h1 class="font-display text-4xl md:text-6xl leading-tight text-[#1a0d14] mb-0">
             {{ $story->title }}
         </h1>
     </header>
@@ -45,15 +45,15 @@
 
     {{-- ── Navigation between stories ── --}}
     @if($prev || $next)
-    <nav class="max-w-3xl mx-auto px-6 md:px-8 mt-20 flex justify-between gap-8 border-t border-[#2e2e2e] pt-10"
+    <nav class="max-w-3xl mx-auto px-6 md:px-8 mt-20 flex justify-between gap-8 border-t border-[#ffcde8] pt-10"
          aria-label="Story navigation">
 
         <div class="flex-1 text-left">
             @if($prev)
             <a href="{{ route('stories.show', $prev->slug) }}"
-               class="group text-sm text-[#9e9e9e] hover:text-[#c9a84c] transition-colors">
-                <span class="block text-xs tracking-widest uppercase mb-2 text-[#2e2e2e]">← Previous</span>
-                <span class="font-display text-lg group-hover:text-[#c9a84c] transition-colors">
+               class="group text-sm text-[#c4607a] hover:text-[#ff1493] transition-colors">
+                <span class="block text-xs tracking-widest uppercase mb-2 text-[#c4607a]">← Previous</span>
+                <span class="font-display text-lg group-hover:text-[#ff1493] transition-colors">
                     {{ $prev->title }}
                 </span>
             </a>
@@ -63,9 +63,9 @@
         <div class="flex-1 text-right">
             @if($next)
             <a href="{{ route('stories.show', $next->slug) }}"
-               class="group text-sm text-[#9e9e9e] hover:text-[#c9a84c] transition-colors">
-                <span class="block text-xs tracking-widest uppercase mb-2 text-[#2e2e2e]">Next →</span>
-                <span class="font-display text-lg group-hover:text-[#c9a84c] transition-colors">
+               class="group text-sm text-[#c4607a] hover:text-[#ff1493] transition-colors">
+                <span class="block text-xs tracking-widest uppercase mb-2 text-[#c4607a]">Next →</span>
+                <span class="font-display text-lg group-hover:text-[#ff1493] transition-colors">
                     {{ $next->title }}
                 </span>
             </a>
@@ -74,6 +74,15 @@
 
     </nav>
     @endif
+
+    {{-- ── Hello Kitty decoration ── --}}
+    <div class="hidden md:flex justify-end max-w-3xl mx-auto px-6 md:px-8 mt-12 mb-4" aria-hidden="true">
+        <img src="/images/kitty/kitty-head.png"
+             alt=""
+             class="w-28 opacity-80"
+             style="pointer-events:none;user-select:none;-webkit-user-drag:none;"
+             loading="lazy" draggable="false">
+    </div>
 
 </article>
 @endsection

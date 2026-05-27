@@ -1,6 +1,7 @@
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import * as THREE from 'three'
+import { createHeroAmbient } from './three-scenes'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -215,6 +216,15 @@ function initAnimations() {
     heroParallax()
     revealSections()
     animateCards()
+    initHeroAmbient()
+}
+
+// ── Hero ambient Three.js particles (post-preloader) ──────────────────────────
+function initHeroAmbient() {
+    const canvas = document.getElementById('hero-ambient-canvas')
+    if (!canvas) return
+    createHeroAmbient(canvas)
+    gsap.to(canvas, { opacity: 1, duration: 2.5, ease: 'power2.out', delay: 0.4 })
 }
 
 // ── Hero entrance ─────────────────────────────────────────────────────────────
