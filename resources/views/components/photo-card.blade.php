@@ -5,8 +5,10 @@
 --}}
 @php
     $lqip = null;
-    if ($item->lqip_path && \Illuminate\Support\Facades\Storage::exists($item->lqip_path)) {
-        $lqip = \Illuminate\Support\Facades\Storage::get($item->lqip_path);
+    if ($item->lqip_path) {
+        try {
+            $lqip = \Illuminate\Support\Facades\Storage::disk('r2')->get($item->lqip_path);
+        } catch (\Throwable) {}
     }
     $ar = $item->aspect_ratio ?? 66.67; // default ~3:2
 @endphp

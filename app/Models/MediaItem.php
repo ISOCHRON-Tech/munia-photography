@@ -64,35 +64,34 @@ class MediaItem extends Model
     // Accessors
     // -----------------------------------------------------------------------
 
-    /** Primary public URL — prefers AVIF, falls back to WebP, then original. */
-    public function getPublicUrlAttribute(): string
+    /** Primary public URL — prefers AVIF, falls back to WebP. */
+    public function getPublicUrlAttribute(): ?string
     {
         if ($this->avif_path) {
-            return Storage::url($this->avif_path);
+            return Storage::disk('r2')->url($this->avif_path);
         }
 
         if ($this->webp_path) {
-            return Storage::url($this->webp_path);
+            return Storage::disk('r2')->url($this->webp_path);
         }
 
-        return Storage::url($this->original_path);
+        return null; // original never served publicly
     }
 
     /** WebP public URL. */
     public function getWebpUrlAttribute(): ?string
     {
-        return $this->webp_path ? Storage::url($this->webp_path) : null;
+        return $this->webp_path ? Storage::disk('r2')->url($this->webp_path) : null;
     }
 
     /** AVIF public URL. */
     public function getAvifUrlAttribute(): ?string
     {
-        return $this->avif_path ? Storage::url($this->avif_path) : null;
+        return $this->avif_path ? Storage::disk('r2')->url($this->avif_path) : null;
     }
 
     /**
      * Build an HTML srcset string from the stored responsive sizes map.
-     * Map format: ['480' => 'path/file-480.webp', '1024' => 'path/file-1024.webp', ...]
      */
     public function getSrcsetAttribute(): ?string
     {
@@ -102,7 +101,7 @@ class MediaItem extends Model
 
         $parts = [];
         foreach ($this->srcset_paths as $width => $path) {
-            $parts[] = Storage::url($path) . ' ' . $width . 'w';
+            $parts[] = Storage::disk('r2')->url($path) . ' ' . $width . 'w';
         }
 
         return implode(', ', $parts);

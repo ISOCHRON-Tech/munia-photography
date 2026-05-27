@@ -5,8 +5,10 @@ declare(strict_types=1);
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\StoryController;
+use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\StoryController as AdminStoryController;
+use App\Http\Middleware\EnsureAdminAuthenticated;
 use Illuminate\Support\Facades\Route;
 
 // ─── Public ─────────────────────────────────────────────────────────────────
@@ -23,9 +25,21 @@ Route::prefix('stories')->name('stories.')->group(function () {
     Route::get('/{slug}', [StoryController::class, 'show'])->name('show');
 });
 
-// ─── Admin ───────────────────────────────────────────────────────────────────
+// ─── Admin auth (magic link — no password) ──────────────────────────────────
 
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'throttle:admin'])->group(function () {
+Route::prefix('admin')->name('admin.')->group(function () {
+
+    Route::get('/login',                  [AdminAuthController::class, 'showLogin'])   ->name('login');
+    Route::post('/login',                 [AdminAuthController::class, 'requestLink']) ->name('login.request')
+         ->middleware('throttle:5,10');   // belt-and-suspenders on top of controller rate-limit
+    Route::get('/login/verify/{token}',  [AdminAuthController::class, 'verifyToken']) ->name('login.verify');
+    Route::post('/logout',               [AdminAuthController::class, 'logout'])      ->name('logout');
+
+});
+
+// ─── Admin protected area ────────────────────────────────────────────────────
+
+Route::prefix('admin')->name('admin.')->middleware([EnsureAdminAuthenticated::class, 'throttle:admin'])->group(function () {
 
     Route::get('/', fn () => redirect()->route('admin.media.index'));
 

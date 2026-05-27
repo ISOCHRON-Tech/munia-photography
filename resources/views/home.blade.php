@@ -100,8 +100,12 @@
 
                 {{-- LQIP blur-up --}}
                 @php
-                    $lqipFile = storage_path('app/public/' . $item->lqip_path);
-                    $lqip = file_exists($lqipFile) ? file_get_contents($lqipFile) : null;
+                    $lqip = null;
+                    if ($item->lqip_path) {
+                        try {
+                            $lqip = \Illuminate\Support\Facades\Storage::disk('r2')->get($item->lqip_path);
+                        } catch (\Throwable) {}
+                    }
                 @endphp
                 @if($lqip)
                 <div class="work-lqip" style="background-image: url('{{ $lqip }}')"></div>

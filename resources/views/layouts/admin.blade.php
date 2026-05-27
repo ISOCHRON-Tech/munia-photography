@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Admin — @yield('title', 'Dashboard') · munia</title>
+    <title>Admin — @yield('title', 'Dashboard') · Monea</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-[#0f0f0f] text-[#e5e5e5] antialiased min-h-screen flex" x-data>
@@ -13,7 +13,7 @@
     <aside class="w-56 bg-[#1a1a1a] border-r border-[#2e2e2e] flex flex-col py-8 px-5 fixed inset-y-0 left-0 z-30">
         <a href="{{ route('home') }}" target="_blank"
            class="font-display text-lg tracking-[0.3em] uppercase text-[#f5f0eb] hover:text-[#c9a84c] transition-colors mb-12">
-            munia
+            Monea
         </a>
 
         <nav class="flex flex-col gap-1 text-sm" aria-label="Admin navigation">
@@ -28,7 +28,7 @@
         </nav>
 
         <div class="mt-auto text-xs text-[#9e9e9e]">
-            <form method="POST" action="{{ route('logout') }}">
+            <form method="POST" action="{{ route('admin.logout') }}">
                 @csrf
                 <button type="submit" class="hover:text-[#f5f0eb] transition-colors">Log out</button>
             </form>

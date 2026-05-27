@@ -22,7 +22,7 @@ class MediaUploadService
         $ext      = strtolower($file->getClientOriginalExtension() ?: 'jpg');
         $destPath = 'originals/' . $uuid . '.' . $ext;
 
-        // Store original in the private (non-public) disk
+        // Store original on the private local disk (never publicly accessible)
         $file->storeAs('originals', $uuid . '.' . $ext, ['disk' => 'local']);
 
         $exif = $this->extractExif($file->getRealPath());
