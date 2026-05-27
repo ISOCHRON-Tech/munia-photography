@@ -6,7 +6,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\MediaItem;
+use App\Support\HomeDummyData;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\View\View;
 
 class GalleryController extends Controller
@@ -32,6 +34,22 @@ class GalleryController extends Controller
             ->withQueryString();
 
         $categories = Category::withCount('mediaItems')->orderBy('name')->get();
+
+        // ── Dummy data fallback (no DB records yet) ───────────────────────
+        if ($items->isEmpty()) {
+            $dummyItems = HomeDummyData::galleryItems();
+            $items = new LengthAwarePaginator(
+                $dummyItems->all(),
+                $dummyItems->count(),
+                24,
+                1,
+                ['path' => $request->url()]
+            );
+        }
+
+        if ($categories->isEmpty()) {
+            $categories = HomeDummyData::galleryCategories();
+        }
 
         return view('gallery.index', compact('items', 'categories', 'categorySlug', 'tagSlug'));
     }

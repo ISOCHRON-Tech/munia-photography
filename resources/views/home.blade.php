@@ -1,70 +1,87 @@
 @extends('layouts.app')
 
-@section('title', 'munia')
+@section('title', 'Monea — Photography & Visual Stories')
 @section('meta_description', 'A photography portfolio and story journal — light, silence, and the moments between.')
 
 @section('content')
 <div data-page="home">
 
+{{-- ─── Preloader (home-only) ─────────────────────────────────── --}}
+<div id="hp-preloader" aria-hidden="true">
+    <canvas id="hp-preloader-canvas"></canvas>
+    <div id="hp-preloader-content">
+        <div id="hp-preloader-letters">
+            <span class="hp-pre-letter">M</span>
+            <span class="hp-pre-letter">O</span>
+            <span class="hp-pre-letter">N</span>
+            <span class="hp-pre-letter">E</span>
+            <span class="hp-pre-letter">A</span>
+        </div>
+        <div id="hp-preloader-line"><div id="hp-preloader-fill"></div></div>
+        <p id="hp-preloader-sub">Photography &amp; Visual Stories</p>
+    </div>
+</div>
+
 {{-- ══════════════════════════════════════════════════════════════
-     HERO — full viewport
+     HERO
 ══════════════════════════════════════════════════════════════ --}}
-<section class="hero-section" aria-label="Introduction">
+<section class="hp-hero" id="hp-hero" aria-label="Introduction">
 
-    {{-- Film-grain noise overlay --}}
-    <div class="hero-grain" aria-hidden="true"></div>
 
-    {{-- Vertical rule lines --}}
-    <div class="hero-rules" aria-hidden="true">
+    {{-- Background photo --}}
+    @if($featured->isNotEmpty() && $featured->first()->public_url)
+    <div class="hp-hero__bg" id="hp-hero-bg">
+        <img src="{{ $featured->first()->public_url }}"
+             alt=""
+             class="hp-hero__bg-img"
+             id="hp-hero-bg-img"
+             loading="eager">
+    </div>
+    @endif
+
+    <div class="hp-hero__overlay" aria-hidden="true"></div>
+    <div class="hp-hero__grain"   aria-hidden="true"></div>
+    <div class="hp-hero__rules"   aria-hidden="true">
         <span></span><span></span><span></span>
     </div>
 
-    {{-- Main copy --}}
-    <div class="hero-body">
-
-        {{-- Eyebrow --}}
-        <p class="hero-eyebrow" id="hero-eyebrow">
+    <div class="hp-hero__body">
+        <p class="hp-hero__eyebrow" id="hp-eyebrow">
             <span>Photography</span>
-            <span class="hero-eyebrow-dot"></span>
+            <span class="hp-dot" aria-hidden="true"></span>
             <span>Visual Stories</span>
         </p>
 
-        {{-- Name --}}
-        <h1 class="hero-name" id="hero-name" aria-label="munia">
-            <span class="hero-name-m" aria-hidden="true">M</span>
-            <span class="hero-name-rest" aria-hidden="true">unia</span>
+        <h1 class="hp-hero__name" id="hp-name" aria-label="Monea">
+            <span class="hp-hero__name-m" aria-hidden="true">M</span><span class="hp-hero__name-rest" aria-hidden="true">onea</span>
         </h1>
 
-        {{-- Tagline --}}
-        <p class="hero-tagline" id="hero-tagline">
-            Light.&ensp;Silence.&ensp;Moment.
+        <p class="hp-hero__tagline" id="hp-tagline">
+            Light &ensp;·&ensp; Silence &ensp;·&ensp; Moment
         </p>
 
-        {{-- CTA row --}}
-        <div class="hero-cta" id="hero-cta">
-            <a href="{{ route('gallery.index') }}" class="hero-btn-primary">
+        <div class="hp-hero__actions" id="hp-actions">
+            <a href="{{ route('gallery.index') }}" class="hp-btn-primary">
                 <span>View Gallery</span>
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                    <path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </a>
             @if($totalPhotos > 0)
-            <span class="hero-count">
-                {{ $totalPhotos }} {{ Str::plural('photograph', $totalPhotos) }}
+            <span class="hp-hero__stat">
+                <span class="hp-hero__stat-num">{{ $totalPhotos }}</span>
+                <span>{{ Str::plural('photograph', $totalPhotos) }}</span>
             </span>
             @endif
         </div>
-
     </div>
 
-    {{-- Scroll indicator --}}
-    <div class="hero-scroll" id="hero-scroll" aria-hidden="true">
-        <div class="hero-scroll-line"></div>
+    <div class="hp-hero__scroll" id="hp-scroll" aria-hidden="true">
+        <div class="hp-hero__scroll-track">
+            <div class="hp-hero__scroll-thumb"></div>
+        </div>
         <span>scroll</span>
     </div>
-
-    {{-- Bottom left — horizontal rule --}}
-    <div class="hero-bottom-rule" id="hero-rule" aria-hidden="true"></div>
 
 </section>
 
@@ -73,73 +90,57 @@
      SELECTED WORK
 ══════════════════════════════════════════════════════════════ --}}
 @if($featured->isNotEmpty())
-<section class="work-section" aria-label="Selected work">
+<section class="hp-work" id="hp-work" aria-label="Selected work">
 
-    {{-- Section label --}}
-    <div class="section-label-wrap">
-        <span class="section-label reveal-item">Selected Work</span>
-        <a href="{{ route('gallery.index') }}" class="section-link reveal-item">
+    <div class="hp-section-head">
+        <div class="hp-sec-label" data-hp-reveal>
+            <div class="hp-sec-label__line"></div>
+            <span>Selected Work</span>
+        </div>
+        <a href="{{ route('gallery.index') }}" class="hp-sec-link" data-hp-reveal>
             All photographs
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
             </svg>
         </a>
     </div>
 
-    {{-- Asymmetric photo grid --}}
-    <div class="work-grid">
+    <div class="hp-work-grid">
         @foreach($featured as $i => $item)
-        <a href="{{ route('gallery.show', $item) }}"
-           class="work-card reveal-item"
+        <a href="{{ route('gallery.show', ['mediaItem' => $item->id]) }}"
+           class="hp-work-card"
            data-index="{{ $i }}"
-           aria-label="{{ $item->title ?? 'Photo ' . ($i+1) }}">
+           data-hp-card
+           aria-label="{{ $item->title ?? 'Photograph ' . ($i + 1) }}">
 
-            {{-- Aspect wrapper --}}
-            <div class="work-card-inner"
-                 style="--ar: {{ $item->aspect_ratio ?? '66.67%' }}">
+            <div class="hp-work-card__inner" style="--ar: {{ $item->aspect_ratio ?? '66.67%' }}">
 
-                {{-- LQIP blur-up --}}
                 @php
                     $lqip = null;
                     if ($item->lqip_path) {
-                        try {
-                            $lqip = \Illuminate\Support\Facades\Storage::disk('r2')->get($item->lqip_path);
-                        } catch (\Throwable) {}
+                        try { $lqip = \Illuminate\Support\Facades\Storage::disk('r2')->get($item->lqip_path); } catch (\Throwable) {}
                     }
                 @endphp
                 @if($lqip)
-                <div class="work-lqip" style="background-image: url('{{ $lqip }}')"></div>
+                <div class="hp-work-card__lqip" style="background-image: url('{{ $lqip }}')"></div>
                 @endif
 
-                {{-- Picture --}}
                 <picture>
-                    @if($item->avif_path)
-                    <source type="image/avif"
-                            srcset="{{ Storage::url($item->avif_path) }}">
-                    @endif
-                    @if($item->webp_path)
-                    <source type="image/webp"
-                            srcset="{{ Storage::url($item->webp_path) }}">
-                    @endif
-                    <img src="{{ Storage::url($item->original_path) }}"
+                    @if($item->avif_path)<source type="image/avif" srcset="{{ $item->avif_url }}">@endif
+                    @if($item->webp_path)<source type="image/webp" srcset="{{ $item->webp_url }}">@endif
+                    <img src="{{ $item->public_url ?? '' }}"
                          alt="{{ $item->title ?? '' }}"
                          loading="{{ $i < 2 ? 'eager' : 'lazy' }}"
-                         class="work-img">
+                         class="hp-work-card__img">
                 </picture>
 
-                {{-- Overlay --}}
-                <div class="work-overlay" aria-hidden="true">
-                    @if($item->title)
-                    <p class="work-title">{{ $item->title }}</p>
-                    @endif
-                    @if($item->category)
-                    <p class="work-category">{{ $item->category->name }}</p>
-                    @endif
+                <div class="hp-work-card__overlay" aria-hidden="true">
+                    @if($item->title)<p class="hp-work-card__title">{{ $item->title }}</p>@endif
+                    @if($item->category)<p class="hp-work-card__cat">{{ $item->category->name }}</p>@endif
                 </div>
-            </div>
 
-            {{-- Index number --}}
-            <span class="work-num" aria-hidden="true">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
+            </div>
+            <span class="hp-work-card__num" aria-hidden="true">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
 
         </a>
         @endforeach
@@ -150,95 +151,140 @@
 
 
 {{-- ══════════════════════════════════════════════════════════════
-     DIVIDER — full-width rule
+     MARQUEE TICKER
 ══════════════════════════════════════════════════════════════ --}}
-<div class="page-divider reveal-item" aria-hidden="true"></div>
+<div class="hp-marquee" aria-hidden="true">
+    <div class="hp-marquee__track">
+        @for($j = 0; $j < 8; $j++)
+        <span class="hp-marquee__word">Photography</span>
+        <span class="hp-marquee__sep">·</span>
+        <span class="hp-marquee__word">Visual Stories</span>
+        <span class="hp-marquee__sep">·</span>
+        <span class="hp-marquee__word">Light &amp; Shadow</span>
+        <span class="hp-marquee__sep">·</span>
+        <span class="hp-marquee__word">Monea · 2026</span>
+        <span class="hp-marquee__sep">·</span>
+        @endfor
+    </div>
+</div>
 
 
 {{-- ══════════════════════════════════════════════════════════════
-     FROM THE JOURNAL
+     STORIES / JOURNAL
 ══════════════════════════════════════════════════════════════ --}}
 @if($stories->isNotEmpty())
-<section class="journal-section" aria-label="Latest stories">
+@php $firstStory = $stories->first(); $otherStories = $stories->slice(1); @endphp
+<section class="hp-stories" id="hp-stories" aria-label="Journal">
 
-    <div class="section-label-wrap">
-        <span class="section-label reveal-item">From the Journal</span>
-        <a href="{{ route('stories.index') }}" class="section-link reveal-item">
+    <div class="hp-section-head">
+        <div class="hp-sec-label" data-hp-reveal>
+            <div class="hp-sec-label__line"></div>
+            <span>From the Journal</span>
+        </div>
+        <a href="{{ route('stories.index') }}" class="hp-sec-link" data-hp-reveal>
             All stories
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
             </svg>
         </a>
     </div>
 
-    <div class="journal-grid">
-        @foreach($stories as $i => $story)
-        <a href="{{ route('stories.show', $story->slug) }}"
-           class="journal-card reveal-item"
-           style="--delay: {{ $i * 0.12 }}s">
-
-            {{-- Banner --}}
-            @if($story->banner_webp_path || $story->banner_path)
-            <div class="journal-thumb">
-                <picture>
-                    @if($story->banner_webp_path)
-                    <source type="image/webp" srcset="{{ Storage::url($story->banner_webp_path) }}">
-                    @endif
-                    <img src="{{ Storage::url($story->banner_path) }}"
-                         alt="{{ $story->title }}"
-                         loading="lazy"
-                         class="journal-thumb-img">
-                </picture>
-            </div>
+    {{-- Featured story --}}
+    <a href="{{ $firstStory instanceof \App\Models\Story ? route('stories.show', $firstStory->slug) : route('stories.index') }}" class="hp-story-hero" data-hp-reveal>
+        <div class="hp-story-hero__thumb">
+            @php $heroBannerUrl = $firstStory->banner_url ?? null; @endphp
+            @if($heroBannerUrl)
+            <img src="{{ $heroBannerUrl }}"
+                 alt="{{ $firstStory->title }}"
+                 loading="lazy"
+                 class="hp-story-hero__img">
             @else
-            <div class="journal-thumb journal-thumb--empty" aria-hidden="true">
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                    <rect width="32" height="32" rx="1" fill="none"/>
-                    <path d="M4 22l8-8 5 5 4-4 7 7" stroke="#2e2e2e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <circle cx="11" cy="11" r="2" stroke="#2e2e2e" stroke-width="1.5"/>
-                </svg>
-            </div>
+            <div class="hp-story-hero__placeholder"></div>
             @endif
-
-            {{-- Text --}}
-            <div class="journal-body">
-                <p class="journal-meta">
-                    {{ $story->published_at->format('M j, Y') }}
-                    @if($story->reading_time_minutes)
-                    <span class="mx-2 opacity-30">/</span>
-                    {{ $story->reading_time_minutes }} min read
-                    @endif
-                </p>
-                <h3 class="journal-title">{{ $story->title }}</h3>
-                @if($story->meta_description)
-                <p class="journal-excerpt">{{ Str::limit($story->meta_description, 110) }}</p>
+        </div>
+        <div class="hp-story-hero__body">
+            <p class="hp-story-meta">
+                {{ $firstStory->published_at->format('M j, Y') }}
+                @if($firstStory->reading_time_minutes)
+                <span aria-hidden="true">·</span> {{ $firstStory->reading_time_minutes }} min read
                 @endif
-                <span class="journal-read-more">
+            </p>
+            <h2 class="hp-story-hero__title">{{ $firstStory->title }}</h2>
+            @if($firstStory->meta_description)
+            <p class="hp-story-hero__excerpt">{{ Str::limit($firstStory->meta_description, 180) }}</p>
+            @endif
+            <span class="hp-read-more">
+                Read story
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                </svg>
+            </span>
+        </div>
+    </a>
+
+    {{-- Secondary stories --}}
+    @if($otherStories->isNotEmpty())
+    <div class="hp-stories-grid">
+        @foreach($otherStories as $story)
+        <a href="{{ $story instanceof \App\Models\Story ? route('stories.show', $story->slug) : route('stories.index') }}" class="hp-story-card" data-hp-reveal>
+            <div class="hp-story-card__thumb">
+                @php $cardBannerUrl = $story->banner_url ?? null; @endphp
+                @if($cardBannerUrl)
+                <img src="{{ $cardBannerUrl }}"
+                     alt="{{ $story->title }}"
+                     loading="lazy"
+                     class="hp-story-card__img">
+                @else
+                <div class="hp-story-card__placeholder"></div>
+                @endif
+            </div>
+            <div class="hp-story-card__body">
+                <p class="hp-story-meta">{{ $story->published_at->format('M j, Y') }}</p>
+                <h3 class="hp-story-card__title">{{ $story->title }}</h3>
+                @if($story->meta_description)
+                <p class="hp-story-card__excerpt">{{ Str::limit($story->meta_description, 100) }}</p>
+                @endif
+                <span class="hp-read-more">
                     Read
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                        <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                        <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
                     </svg>
                 </span>
             </div>
         </a>
         @endforeach
     </div>
+    @endif
 
 </section>
 @endif
 
 
 {{-- ══════════════════════════════════════════════════════════════
-     BOTTOM CTA STRIP
+     CONTACT
 ══════════════════════════════════════════════════════════════ --}}
-<section class="cta-strip reveal-item" aria-label="Call to action">
-    <p class="cta-strip-label">The complete archive</p>
-    <a href="{{ route('gallery.index') }}" class="cta-strip-link">
-        Explore every photograph
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M3 10h14M11 4l6 6-6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    </a>
+<section class="hp-contact" id="hp-contact" aria-label="Contact">
+
+    <div class="hp-contact__bg" aria-hidden="true">
+        <div class="hp-contact__glow"></div>
+    </div>
+
+    <div class="hp-contact__inner">
+        <p class="hp-contact__eyebrow" data-hp-reveal>— Get in touch</p>
+        <h2 class="hp-contact__heading" data-hp-reveal>
+            Let's create<br><em>together.</em>
+        </h2>
+        <p class="hp-contact__sub" data-hp-reveal>
+            Available for commissions, editorial work, and private collections.
+        </p>
+        <a href="mailto:hello@monea.photo"
+           class="hp-contact__email"
+           data-hp-reveal>
+            hello@monea.photo
+        </a>
+        <div class="hp-contact__rule" data-hp-reveal aria-hidden="true"></div>
+    </div>
+
 </section>
 
 </div>{{-- /data-page="home" --}}

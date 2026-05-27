@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\Story;
+use App\Support\HomeDummyData;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
@@ -15,11 +17,25 @@ class StoryController extends Controller
 
     public function index(): View
     {
-        $stories = Cache::remember('stories:index:page:1', self::CACHE_TTL, fn () =>
-            Story::published()
-                ->orderByDesc('published_at')
-                ->paginate(9)
-        );
+        // Skip the cache when there are no published stories — avoids serializing
+        // an empty paginator into the database cache which can fail to deserialize.
+        if (! Story::published()->exists()) {
+            Cache::forget('stories:index:page:1');
+            $dummyStories = HomeDummyData::storiesIndex();
+            $stories = new LengthAwarePaginator(
+                $dummyStories->all(),
+                $dummyStories->count(),
+                9,
+                1,
+                ['path' => request()->url()]
+            );
+        } else {
+            $stories = Cache::remember('stories:index:page:1', self::CACHE_TTL, fn () =>
+                Story::published()
+                    ->orderByDesc('published_at')
+                    ->paginate(9)
+            );
+        }
 
         return view('stories.index', compact('stories'));
     }

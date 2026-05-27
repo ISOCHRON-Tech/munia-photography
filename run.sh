@@ -17,6 +17,7 @@ sleep 0.5
 pkill -f "artisan serve"      2>/dev/null || true
 pkill -f "artisan queue:work" 2>/dev/null || true
 pkill -f "vite"               2>/dev/null || true
+rm -f public/hot   # remove stale Vite hot file
 sleep 0.5
 
 # ── Ensure storage symlink exists ─────────────────────────────────────────────

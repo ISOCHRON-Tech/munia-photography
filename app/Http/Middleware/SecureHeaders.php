@@ -20,20 +20,47 @@ class SecureHeaders
         /** @var Response $response */
         $response = $next($request);
 
-        $csp = implode('; ', [
+        $isDev = app()->environment('local');
+
+        $scriptSrc = $isDev
+            ? "script-src 'self' 'unsafe-inline' http://127.0.0.1:5173"
+            : "script-src 'self' 'unsafe-inline'";
+
+        $styleSrc = $isDev
+            ? "style-src 'self' 'unsafe-inline' http://127.0.0.1:5173 https://fonts.bunny.net"
+            : "style-src 'self' 'unsafe-inline'";
+
+        $fontSrc = $isDev
+            ? "font-src 'self' data: https://fonts.bunny.net"
+            : "font-src 'self' data:";
+
+        $connectSrc = $isDev
+            ? "connect-src 'self' http://127.0.0.1:5173 ws://127.0.0.1:5173"
+            : "connect-src 'self'";
+
+        $imgSrc = $isDev
+            ? "img-src 'self' data: blob: https://picsum.photos https://fastly.picsum.photos"
+            : "img-src 'self' data: blob:";
+
+        $cspParts = [
             "default-src 'self'",
-            "script-src 'self' 'unsafe-inline'",   // Alpine.js inline handlers need this
-            "style-src 'self' 'unsafe-inline'",     // Tailwind inline styles
-            "img-src 'self' data: blob:",            // data: for LQIP, blob: for lightbox
-            "font-src 'self' data:",
-            "connect-src 'self'",
+            $scriptSrc,
+            $styleSrc,
+            $imgSrc,
+            $fontSrc,
+            $connectSrc,
             "media-src 'self'",
             "object-src 'none'",
             "frame-ancestors 'none'",
             "base-uri 'self'",
             "form-action 'self'",
-            "upgrade-insecure-requests",
-        ]);
+        ];
+
+        if (! $isDev) {
+            $cspParts[] = "upgrade-insecure-requests";
+        }
+
+        $csp = implode('; ', $cspParts);
 
         $response->headers->set('Content-Security-Policy', $csp);
         $response->headers->set('X-Frame-Options', 'DENY');

@@ -7,7 +7,6 @@ export default defineConfig({
         tailwindcss(),
         laravel({
             input: [
-                'resources/css/app.css',
                 'resources/js/app.js',
             ],
             refresh: true,
@@ -28,6 +27,7 @@ export default defineConfig({
         chunkSizeWarningLimit: 600,
     },
     server: {
+        host: '127.0.0.1',
         watch: {
             ignored: ['**/storage/framework/views/**'],
         },

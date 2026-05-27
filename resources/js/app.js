@@ -1,3 +1,4 @@
+import '../css/app.css'
 import Alpine from 'alpinejs'
 import Focus from '@alpinejs/focus'
 import { initPreloader } from './preloader'

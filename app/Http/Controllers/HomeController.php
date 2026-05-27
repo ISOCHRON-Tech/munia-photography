@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MediaItem;
 use App\Models\Story;
+use App\Support\HomeDummyData;
 use Illuminate\View\View;
 
 class HomeController extends Controller
@@ -35,6 +36,19 @@ class HomeController extends Controller
             ->get();
 
         $totalPhotos = MediaItem::count();
+
+        // ── Dummy data fallback (no DB records yet) ───────────────────────
+        if ($featured->isEmpty()) {
+            $featured = HomeDummyData::featured();
+        }
+
+        if ($stories->isEmpty()) {
+            $stories = HomeDummyData::stories();
+        }
+
+        if ($totalPhotos === 0) {
+            $totalPhotos = HomeDummyData::totalPhotos();
+        }
 
         return view('home', compact('featured', 'stories', 'totalPhotos'));
     }

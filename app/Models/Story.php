@@ -45,13 +45,18 @@ class Story extends Model
 
     public function getBannerUrlAttribute(): ?string
     {
-        if ($this->banner_webp_path) {
-            return \Illuminate\Support\Facades\Storage::url($this->banner_webp_path);
+        $path = $this->banner_webp_path ?? $this->banner_path;
+
+        if (! $path) {
+            return null;
         }
 
-        return $this->banner_path
-            ? \Illuminate\Support\Facades\Storage::url($this->banner_path)
-            : null;
+        // Support full HTTP URLs stored during seeding / dummy data scenarios
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+
+        return \Illuminate\Support\Facades\Storage::url($path);
     }
 
     public function getOgImageUrlAttribute(): ?string

@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'munia') — Photography & Stories</title>
+    <title>@yield('title', 'Monea') — Photography & Stories</title>
     <meta name="description" content="@yield('meta_description', 'A personal photography portfolio and story journal.')">
 
     {{-- Open Graph --}}
     <meta property="og:type"  content="website">
-    <meta property="og:title" content="@yield('title', 'munia')">
+    <meta property="og:title" content="@yield('title', 'Monea')">
     <meta property="og:description" content="@yield('meta_description', 'A personal photography portfolio.')">
     @hasSection('og_image')
     <meta property="og:image" content="@yield('og_image')">
@@ -26,12 +26,6 @@
 </head>
 <body class="bg-[#0a0a0a] text-[#f5f0eb] antialiased" x-data>
 
-    {{-- ══ Preloader ══ --}}
-    <div id="preloader" role="status" aria-label="Loading">
-        <span class="preloader-logo" aria-hidden="true">munia</span>
-        <div class="preloader-line" aria-hidden="true"></div>
-    </div>
-
     {{-- ══ Navigation ══ --}}
     <header class="fixed top-0 inset-x-0 z-50 mix-blend-difference" x-data="{ open: false }">
         <nav class="flex items-center justify-between px-6 md:px-12 py-5"
@@ -39,7 +33,7 @@
 
             <a href="{{ route('home') }}"
                class="font-display text-lg tracking-[0.35em] uppercase text-[#f5f0eb] hover:text-[#c9a84c] transition-colors">
-                munia
+                Monea
             </a>
 
             {{-- Desktop nav --}}
@@ -84,7 +78,7 @@
     {{-- ══ Footer ══ --}}
     <footer class="border-t border-[#2e2e2e] py-12 px-6 md:px-12 mt-24">
         <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-[#9e9e9e] text-xs tracking-widest uppercase">
-            <span>© {{ date('Y') }} munia</span>
+            <span>© {{ date('Y') }} Monea</span>
             <nav class="flex gap-8" aria-label="Footer navigation">
                 <a href="{{ route('gallery.index') }}" class="hover:text-[#c9a84c] transition-colors">Gallery</a>
                 <a href="{{ route('stories.index') }}" class="hover:text-[#c9a84c] transition-colors">Stories</a>
