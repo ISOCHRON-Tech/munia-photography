@@ -5,10 +5,12 @@ declare(strict_types=1);
 return [
     /*
     |--------------------------------------------------------------------------
-    | Admin E-mail Address
+    | Admin Credentials
     |--------------------------------------------------------------------------
-    | The single administrator email that is authorised to receive magic-link
-    | login tokens. Set ADMIN_EMAIL in your .env file.
+    | Set ADMIN_EMAIL and ADMIN_PASSWORD_HASH in your .env file.
+    | Generate the hash with:
+    |   php artisan tinker --execute="echo bcrypt('yourpassword');"
     */
-    'email' => env('ADMIN_EMAIL'),
+    'email'         => env('ADMIN_EMAIL'),
+    'password_hash' => env('ADMIN_PASSWORD_HASH'),
 ];
