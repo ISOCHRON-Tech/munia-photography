@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\StoryController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\StoryController as AdminStoryController;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 // ─── Public ─────────────────────────────────────────────────────────────────
 
-Route::get('/', [GalleryController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('gallery')->name('gallery.')->group(function () {
     Route::get('/', [GalleryController::class, 'index'])->name('index');

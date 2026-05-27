@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'Munu Photo') — Photography & Stories</title>
+    <title>@yield('title', 'munia') — Photography & Stories</title>
     <meta name="description" content="@yield('meta_description', 'A personal photography portfolio and story journal.')">
 
     {{-- Open Graph --}}
     <meta property="og:type"  content="website">
-    <meta property="og:title" content="@yield('title', 'Munu Photo')">
+    <meta property="og:title" content="@yield('title', 'munia')">
     <meta property="og:description" content="@yield('meta_description', 'A personal photography portfolio.')">
     @hasSection('og_image')
     <meta property="og:image" content="@yield('og_image')">
@@ -28,7 +28,7 @@
 
     {{-- ══ Preloader ══ --}}
     <div id="preloader" role="status" aria-label="Loading">
-        <span class="preloader-logo" aria-hidden="true">Munu</span>
+        <span class="preloader-logo" aria-hidden="true">munia</span>
         <div class="preloader-line" aria-hidden="true"></div>
     </div>
 
@@ -39,13 +39,13 @@
 
             <a href="{{ route('home') }}"
                class="font-display text-lg tracking-[0.35em] uppercase text-[#f5f0eb] hover:text-[#c9a84c] transition-colors">
-                Munu
+                munia
             </a>
 
             {{-- Desktop nav --}}
             <ul class="hidden md:flex items-center gap-10">
-                <li><a href="{{ route('gallery.index') }}" class="nav-link @activeRoute('gallery.*')">Gallery</a></li>
-                <li><a href="{{ route('stories.index') }}" class="nav-link @activeRoute('stories.*')">Stories</a></li>
+                <li><a href="{{ route('gallery.index') }}" class="nav-link {{ request()->routeIs('gallery.*') ? 'active' : '' }}">Gallery</a></li>
+                <li><a href="{{ route('stories.index') }}" class="nav-link {{ request()->routeIs('stories.*') ? 'active' : '' }}">Stories</a></li>
             </ul>
 
             {{-- Mobile hamburger --}}
@@ -84,7 +84,7 @@
     {{-- ══ Footer ══ --}}
     <footer class="border-t border-[#2e2e2e] py-12 px-6 md:px-12 mt-24">
         <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-[#9e9e9e] text-xs tracking-widest uppercase">
-            <span>© {{ date('Y') }} Munu Photo</span>
+            <span>© {{ date('Y') }} munia</span>
             <nav class="flex gap-8" aria-label="Footer navigation">
                 <a href="{{ route('gallery.index') }}" class="hover:text-[#c9a84c] transition-colors">Gallery</a>
                 <a href="{{ route('stories.index') }}" class="hover:text-[#c9a84c] transition-colors">Stories</a>
