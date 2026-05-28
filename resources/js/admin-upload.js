@@ -41,7 +41,10 @@ document.addEventListener('alpine:init', () => {
         imgAlt:        '',
         imgUploading:  false,
         imgError:      '',
-
+        // ── Upload success modal ──────────────────────────────────────────
+        successModal:  false,
+        successCount:  0,
+        errorCount:    0,
         init() {
             this.uploadUrl   = this.$el.dataset.uploadUrl   || ''
             this.categoryUrl = this.$el.dataset.categoryUrl || ''
@@ -328,7 +331,18 @@ document.addEventListener('alpine:init', () => {
                     item.status = 'error'
                 }
             }
-            this.uploading = false
+            this.uploading     = false
+            this.successCount  = this.queue.filter(f => f.status === 'done').length
+            this.errorCount    = this.queue.filter(f => f.status === 'error').length
+            if (this.successCount > 0) {
+                this.successModal = true
+            }
+        },
+
+        dismissSuccess() {
+            this.successModal = false
+            // clear only the done items, keep errored ones so user can retry
+            this.queue = this.queue.filter(f => f.status !== 'done')
         },
 
         formatSize(bytes) {

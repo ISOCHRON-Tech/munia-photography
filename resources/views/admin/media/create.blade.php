@@ -292,6 +292,65 @@
             </div>
         </div>
 
+        {{-- ══════════════ Upload Success Modal ══════════════ --}}
+        <div x-show="successModal"
+             x-transition:enter="transition duration-200"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100"
+             x-transition:leave="transition duration-150"
+             x-transition:leave-start="opacity-100 scale-100"
+             x-transition:leave-end="opacity-0 scale-95"
+             class="fixed inset-0 z-[70] flex items-center justify-center p-4"
+             style="display:none"
+             @keydown.escape.window="dismissSuccess()">
+
+            {{-- Backdrop --}}
+            <div class="absolute inset-0 bg-black/40" @click="dismissSuccess()"></div>
+
+            {{-- Panel --}}
+            <div class="relative bg-[#fff0f5] border border-[#ffb3d9] rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden text-center">
+
+                {{-- Pink top bar --}}
+                <div class="h-1.5 w-full bg-gradient-to-r from-[#ffb3d9] via-[#ff1493] to-[#ffb3d9]"></div>
+
+                <div class="px-8 pt-8 pb-7">
+                    {{-- Kitty / checkmark icon --}}
+                    <div class="w-16 h-16 rounded-full bg-[#ffe4f0] border-2 border-[#ffb3d9] flex items-center justify-center mx-auto mb-5">
+                        <i class="fa-solid fa-check text-2xl text-[#ff1493]"></i>
+                    </div>
+
+                    <h2 class="text-lg font-display text-[#1a0d14] mb-1">Upload complete!</h2>
+
+                    <p class="text-sm text-[#8b3a6e] mb-1">
+                        <span class="font-semibold text-[#ff1493]" x-text="successCount"></span>
+                        <span x-text="successCount === 1 ? ' photo' : ' photos'"></span>
+                        uploaded successfully.
+                    </p>
+
+                    <p x-show="errorCount > 0" class="text-xs text-red-400 mb-3" style="display:none">
+                        <span x-text="errorCount"></span>
+                        <span x-text="errorCount === 1 ? ' file' : ' files'"></span>
+                        failed — they remain in the queue.
+                    </p>
+
+                    <p class="text-xs text-[#8b3a6e]/60 mt-2 mb-6">
+                        Processing is running in the background&nbsp;&mdash; images will appear shortly.
+                    </p>
+
+                    <div class="flex flex-col gap-2.5">
+                        <a href="{{ route('admin.media.index') }}"
+                           class="w-full py-2.5 bg-[#ff1493] text-white text-sm font-medium rounded-lg hover:bg-[#c71585] transition-colors">
+                            View Gallery
+                        </a>
+                        <button @click="dismissSuccess()"
+                                class="w-full py-2.5 text-sm text-[#8b3a6e] hover:text-[#1a0d14] border border-[#ffb3d9] rounded-lg hover:border-[#ff1493] transition-colors">
+                            Upload more
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {{-- ══════════════ Photo Editor Modal ══════════════ --}}
         <div x-show="editTarget !== null"
              x-transition:enter="transition duration-150"

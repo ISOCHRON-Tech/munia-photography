@@ -23,7 +23,7 @@
     @stack('styles')
     @stack('head_scripts')
 </head>
-<body class="bg-[#fff0f5] text-[#1a0d14] antialiased min-h-screen flex"
+<body class="bg-[#fff0f5] text-[#1a0d14] antialiased h-screen overflow-hidden flex"
       x-data="{
           sidebarOpen: false,
           sidebarCollapsed: JSON.parse(localStorage.getItem('adminSidebarCollapsed') || 'false')
@@ -68,8 +68,8 @@
     </div>
 
     {{-- Sidebar --}}
-    <aside class="fixed inset-y-0 left-0 z-40 bg-[#ffe4f0] border-r border-[#ffb3d9] flex flex-col py-8
-                  transition-all duration-200 ease-in-out relative
+    <aside class="fixed inset-y-0 left-0 z-40 h-screen bg-[#ffe4f0] border-r border-[#ffb3d9] flex flex-col py-8 overflow-y-auto
+                  transition-all duration-200 ease-in-out
                   -translate-x-full md:translate-x-0"
            :class="[
                sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0',
@@ -78,12 +78,12 @@
 
         {{-- Desktop collapse toggle --}}
         <button @click="sidebarCollapsed = !sidebarCollapsed"
-                class="hidden md:flex absolute -right-3 top-9 w-6 h-6 rounded-full
-                       bg-[#ffe4f0] border border-[#ffb3d9] items-center justify-center
-                       text-[#ff1493] hover:bg-[#ff1493] hover:text-white hover:border-[#ff1493]
-                       transition-colors z-50 shadow-sm"
+                class="hidden md:flex absolute -right-4 top-8 w-8 h-8 rounded-full
+                       bg-[#ff1493] border-2 border-white items-center justify-center
+                       text-white hover:bg-[#c71585]
+                       transition-colors z-50 shadow-md"
                 :title="sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'">
-            <i class="text-[10px]" :class="sidebarCollapsed ? 'fa-solid fa-chevron-right' : 'fa-solid fa-chevron-left'"></i>
+            <i class="text-[11px] font-bold" :class="sidebarCollapsed ? 'fa-solid fa-chevron-right' : 'fa-solid fa-chevron-left'"></i>
         </button>
 
         <a href="{{ route('home') }}" target="_blank"
@@ -192,10 +192,9 @@
          style="width:clamp(140px,12vw,200px);opacity:0.55;image-rendering:-webkit-optimize-contrast;">
 
     {{-- Content --}}
-    <div class="flex-1 p-4 pt-18 md:pt-0 md:p-8 lg:p-12 transition-all duration-200 ease-in-out"
+    <div class="flex-1 overflow-y-auto h-screen pt-[4.5rem] md:pt-0 px-4 pb-4 md:p-8 lg:p-12 transition-all duration-200 ease-in-out"
          :class="sidebarCollapsed ? 'md:ml-14' : 'md:ml-56'"
-         style="padding-top: calc(3.5rem + 1rem)"
-         x-init="$watch('sidebarOpen', v => document.body.style.overflow = v ? 'hidden' : '')">
+         x-init="$watch('sidebarOpen', v => $el.style.overflow = v ? 'hidden' : '')">
 
         @if(session('success'))
         <div class="mb-6 px-4 py-3 rounded bg-emerald-50 border border-emerald-300 text-emerald-800 text-sm"
