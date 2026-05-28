@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     @stack('before_alpine')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
@@ -22,7 +23,18 @@
     @stack('styles')
     @stack('head_scripts')
 </head>
-<body class="bg-[#fff0f5] text-[#1a0d14] antialiased min-h-screen flex" x-data="{ sidebarOpen: false }">
+<body class="bg-[#fff0f5] text-[#1a0d14] antialiased min-h-screen flex"
+      x-data="{
+          sidebarOpen: false,
+          sidebarCollapsed: JSON.parse(localStorage.getItem('adminSidebarCollapsed') || 'false')
+      }"
+      x-init="
+          $watch('sidebarCollapsed', v => {
+              localStorage.setItem('adminSidebarCollapsed', JSON.stringify(v));
+              document.body.classList.toggle('sidebar-collapsed', v);
+          });
+          document.body.classList.toggle('sidebar-collapsed', sidebarCollapsed);
+      ">
 
     {{-- Mobile top bar --}}
     <div class="md:hidden fixed inset-x-0 top-0 z-50 h-14 bg-[#ffe4f0] border-b border-[#ffb3d9] flex items-center justify-between px-4">
@@ -56,56 +68,118 @@
     </div>
 
     {{-- Sidebar --}}
-    <aside class="fixed inset-y-0 left-0 z-40 w-56 bg-[#ffe4f0] border-r border-[#ffb3d9] flex flex-col py-8 px-5
-                  transition-transform duration-200
+    <aside class="fixed inset-y-0 left-0 z-40 bg-[#ffe4f0] border-r border-[#ffb3d9] flex flex-col py-8
+                  transition-all duration-200 ease-in-out relative
                   -translate-x-full md:translate-x-0"
-           :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'">
+           :class="[
+               sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0',
+               sidebarCollapsed ? 'w-14 px-2' : 'w-56 px-5'
+           ]">
+
+        {{-- Desktop collapse toggle --}}
+        <button @click="sidebarCollapsed = !sidebarCollapsed"
+                class="hidden md:flex absolute -right-3 top-9 w-6 h-6 rounded-full
+                       bg-[#ffe4f0] border border-[#ffb3d9] items-center justify-center
+                       text-[#ff1493] hover:bg-[#ff1493] hover:text-white hover:border-[#ff1493]
+                       transition-colors z-50 shadow-sm"
+                :title="sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'">
+            <i class="text-[10px]" :class="sidebarCollapsed ? 'fa-solid fa-chevron-right' : 'fa-solid fa-chevron-left'"></i>
+        </button>
+
         <a href="{{ route('home') }}" target="_blank"
-           class="font-display text-lg tracking-[0.3em] uppercase text-[#1a0d14] hover:text-[#ff1493] transition-colors mb-12">
-            Monea
+           :title="sidebarCollapsed ? 'Monea' : ''"
+           class="font-display uppercase text-[#1a0d14] hover:text-[#ff1493] transition-colors mb-12 flex items-center justify-center overflow-hidden whitespace-nowrap">
+            <span x-show="!sidebarCollapsed"
+                  x-transition:enter="transition-opacity duration-150 delay-100"
+                  x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                  x-transition:leave="transition-opacity duration-100"
+                  x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                  class="text-lg tracking-[0.3em]">Monea</span>
+            <i x-show="sidebarCollapsed"
+               x-transition:enter="transition-opacity duration-150 delay-100"
+               x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+               x-transition:leave="transition-opacity duration-100"
+               x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+               class="fa-solid fa-cat text-xl" style="display:none"></i>
         </a>
 
-        <nav class="flex flex-col gap-1 text-sm" aria-label="Admin navigation">
+        <nav class="flex flex-col gap-1 text-sm overflow-hidden" aria-label="Admin navigation">
             {{-- Gallery: all photos --}}
             <a href="{{ route('admin.media.index') }}"
                @click="sidebarOpen = false"
-               class="px-3 py-2 rounded transition-colors hover:bg-[#ffcde8]
+               :title="sidebarCollapsed ? 'Gallery' : ''"
+               :class="sidebarCollapsed ? 'justify-center px-0' : 'px-3'"
+               class="py-2 rounded transition-colors hover:bg-[#ffcde8] flex items-center gap-2.5
                       @if(request()->routeIs('admin.media.*') && request()->query('section') !== 'featured')
                           bg-[#ffcde8] text-[#ff1493]
                       @else
                           text-[#8b3a6e]
                       @endif">
-                Gallery
+                <i class="fa-solid fa-images w-4 text-center flex-shrink-0"></i>
+                <span x-show="!sidebarCollapsed"
+                      x-transition:enter="transition-opacity duration-150 delay-100"
+                      x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                      x-transition:leave="transition-opacity duration-100"
+                      x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                      class="whitespace-nowrap overflow-hidden">Gallery</span>
             </a>
             {{-- Featured (Home) --}}
             <a href="{{ route('admin.media.index', ['section' => 'featured']) }}"
                @click="sidebarOpen = false"
-               class="px-3 py-2 rounded transition-colors hover:bg-[#ffcde8]
+               :title="sidebarCollapsed ? 'Featured (Home)' : ''"
+               :class="sidebarCollapsed ? 'justify-center px-0' : 'px-3'"
+               class="py-2 rounded transition-colors hover:bg-[#ffcde8] flex items-center gap-2.5
                       @if(request()->query('section') === 'featured')
                           bg-[#ffcde8] text-[#ff1493]
                       @else
                           text-[#8b3a6e]
                       @endif">
-                ★ Featured <span class="opacity-40 text-xs">(Home)</span>
+                <i class="fa-solid fa-star w-4 text-center flex-shrink-0"></i>
+                <span x-show="!sidebarCollapsed"
+                      x-transition:enter="transition-opacity duration-150 delay-100"
+                      x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                      x-transition:leave="transition-opacity duration-100"
+                      x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                      class="whitespace-nowrap overflow-hidden">Featured <span class="opacity-40 text-xs">(Home)</span></span>
             </a>
             {{-- Stories --}}
             <a href="{{ route('admin.stories.index') }}"
                @click="sidebarOpen = false"
-               class="px-3 py-2 rounded transition-colors hover:bg-[#ffcde8] @if(request()->routeIs('admin.stories.*')) bg-[#ffcde8] text-[#ff1493] @else text-[#8b3a6e] @endif">
-                Stories
+               :title="sidebarCollapsed ? 'Stories' : ''"
+               :class="sidebarCollapsed ? 'justify-center px-0' : 'px-3'"
+               class="py-2 rounded transition-colors hover:bg-[#ffcde8] flex items-center gap-2.5
+                      @if(request()->routeIs('admin.stories.*')) bg-[#ffcde8] text-[#ff1493] @else text-[#8b3a6e] @endif">
+                <i class="fa-solid fa-book-open w-4 text-center flex-shrink-0"></i>
+                <span x-show="!sidebarCollapsed"
+                      x-transition:enter="transition-opacity duration-150 delay-100"
+                      x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                      x-transition:leave="transition-opacity duration-100"
+                      x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                      class="whitespace-nowrap overflow-hidden">Stories</span>
             </a>
         </nav>
 
         {{-- Hello Kitty sidebar decoration --}}
         <div class="mt-auto flex flex-col items-center">
-            <img src="/images/kitty/kitty-head.png"
+            <img x-show="!sidebarCollapsed"
+                 src="/images/kitty/kitty-head.png"
                  alt="" aria-hidden="true" draggable="false"
                  class="w-20 mb-3 opacity-70 hover:opacity-100 transition-opacity pointer-events-none select-none"
-                 style="image-rendering:-webkit-optimize-contrast;">
-            <div class="w-full text-xs text-[#8b3a6e]">
+                 style="image-rendering:-webkit-optimize-contrast; display:none">
+            <div class="w-full text-xs text-[#8b3a6e]" :class="sidebarCollapsed ? 'flex justify-center' : ''">
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf
-                    <button type="submit" class="hover:text-[#1a0d14] transition-colors">Log out</button>
+                    <button type="submit"
+                            :title="sidebarCollapsed ? 'Log out' : ''"
+                            class="hover:text-[#1a0d14] transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-right-from-bracket flex-shrink-0"></i>
+                        <span x-show="!sidebarCollapsed"
+                              x-transition:enter="transition-opacity duration-150 delay-100"
+                              x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                              x-transition:leave="transition-opacity duration-100"
+                              x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                              class="whitespace-nowrap overflow-hidden">Log out</span>
+                    </button>
                 </form>
             </div>
         </div>
@@ -118,7 +192,10 @@
          style="width:clamp(140px,12vw,200px);opacity:0.55;image-rendering:-webkit-optimize-contrast;">
 
     {{-- Content --}}
-    <div class="flex-1 md:ml-56 p-4 pt-18 md:pt-0 md:p-8 lg:p-12" style="padding-top: calc(3.5rem + 1rem)" x-init="$watch('sidebarOpen', v => document.body.style.overflow = v ? 'hidden' : '')">
+    <div class="flex-1 p-4 pt-18 md:pt-0 md:p-8 lg:p-12 transition-all duration-200 ease-in-out"
+         :class="sidebarCollapsed ? 'md:ml-14' : 'md:ml-56'"
+         style="padding-top: calc(3.5rem + 1rem)"
+         x-init="$watch('sidebarOpen', v => document.body.style.overflow = v ? 'hidden' : '')">
 
         @if(session('success'))
         <div class="mb-6 px-4 py-3 rounded bg-emerald-50 border border-emerald-300 text-emerald-800 text-sm"

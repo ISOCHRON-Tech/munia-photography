@@ -9,6 +9,7 @@ document.addEventListener('alpine:init', () => {
         queue:      [],
         title:      '',
         description:'',
+        previewHtml:'',
         tags:       '',
         isFeatured: false,
         uploadUrl:  '',
@@ -33,14 +34,28 @@ document.addEventListener('alpine:init', () => {
         // ── EasyMDE instance ──────────────────────────────────────────────
         _mde: null,
 
+        // ── Image insert modal ────────────────────────────────────────────
+        imgModal:      false,
+        imgTab:        'url',   // 'url' | 'upload'
+        imgUrl:        '',
+        imgAlt:        '',
+        imgUploading:  false,
+        imgError:      '',
+
         init() {
             this.uploadUrl   = this.$el.dataset.uploadUrl   || ''
             this.categoryUrl = this.$el.dataset.categoryUrl || ''
+            this.imageUploadUrl = this.$el.dataset.imageUploadUrl || ''
 
             // Init EasyMDE on the description textarea
             this.$nextTick(() => {
                 const ta = document.getElementById('description-editor')
                 if (!ta) return
+
+                const imageUploadUrl = this.imageUploadUrl
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').content
+                const component = this   // capture Alpine ref for toolbar closures
+
                 this._mde = new EasyMDE({
                     element: ta,
                     spellChecker: false,
@@ -50,19 +65,68 @@ document.addEventListener('alpine:init', () => {
                     toolbar: [
                         'bold', 'italic', 'heading', '|',
                         'quote', 'unordered-list', 'ordered-list', '|',
-                        'link', '|',
-                        'preview', 'side-by-side', 'fullscreen',
+                        'link',
+                        {
+                            name: 'image',
+                            action: () => {
+                                component.imgModal     = true
+                                component.imgTab       = 'url'
+                                component.imgUrl       = ''
+                                component.imgAlt       = ''
+                                component.imgError     = ''
+                                component.imgUploading = false
+                            },
+                            className: 'fa fa-image',
+                            title: 'Insert Image',
+                        },
                     ],
                     placeholder: 'Write a description…',
-                    minHeight: '120px',
+                    minHeight: '160px',
                 })
                 this._mde.codemirror.on('change', () => {
                     this.description = this._mde.value()
+                    this.previewHtml = this._mde.markdown(this.description)
                 })
             })
 
             // Initial category load (all, no query)
             this.fetchCategories('')
+        },
+
+        // ── Image insert modal ────────────────────────────────────────────
+        insertImageFromUrl() {
+            const url = this.imgUrl.trim()
+            if (!url) return
+            const alt = this.imgAlt.trim()
+            this._mde.codemirror.replaceSelection(`![${alt}](${url})`)
+            this.imgModal = false
+        },
+
+        async uploadAndInsertImage(file) {
+            if (!file) return
+            this.imgUploading = true
+            this.imgError     = ''
+            const form = new FormData()
+            form.append('image', file)
+            try {
+                const res = await fetch(this.imageUploadUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Accept':        'application/json',
+                        'X-CSRF-TOKEN':  document.querySelector('meta[name="csrf-token"]').content,
+                    },
+                    body: form,
+                })
+                if (!res.ok) throw new Error(await res.text())
+                const data = await res.json()
+                const alt  = this.imgAlt.trim()
+                this._mde.codemirror.replaceSelection(`![${alt}](${data.url})`)
+                this.imgModal = false
+            } catch (e) {
+                this.imgError = e.message || 'Upload failed'
+            } finally {
+                this.imgUploading = false
+            }
         },
 
         // ── Category combobox ─────────────────────────────────────────────

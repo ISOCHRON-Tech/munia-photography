@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\StoryController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\EditorImageController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\StoryController as AdminStoryController;
 use App\Http\Middleware\EnsureAdminAuthenticated;
@@ -49,6 +50,9 @@ Route::prefix('admin')->name('admin.')->middleware([EnsureAdminAuthenticated::cl
     // Categories (inline creation + search)
     Route::get('categories',       [CategoryController::class, 'index'])->name('categories.index');
     Route::post('categories',      [CategoryController::class, 'store'])->name('categories.store');
+
+    // Editor image upload (EasyMDE → R2)
+    Route::post('editor/image', [EditorImageController::class, 'store'])->name('editor.image.store');
 
     // Stories
     Route::resource('stories', AdminStoryController::class)

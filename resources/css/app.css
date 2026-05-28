@@ -1183,3 +1183,28 @@ html {
 .EasyMDEContainer .editor-preview code { background: #ffe4f0; color: #1a0d14; }
 .EasyMDEContainer .editor-preview blockquote { border-left-color: #ff1493; color: #8b3a6e; }
 
+/* ── EasyMDE fullscreen & side-by-side: offset for sidebar ───── */
+/*
+ * EasyMDE sets left:0 on fullscreen/side-by-side elements.
+ * We override to respect the admin sidebar width.
+ * Default (mobile / no sidebar): no offset.
+ * md+ expanded sidebar: offset 14rem (w-56 = 224px).
+ * md+ collapsed sidebar: offset 3.5rem (w-14 = 56px).
+ */
+@media (min-width: 768px) {
+    .CodeMirror-fullscreen,
+    .editor-toolbar.fullscreen,
+    .EasyMDEContainer.sided .CodeMirror-sided,
+    .editor-preview-active-side {
+        left: 14rem !important;
+    }
+
+    /* When sidebar is collapsed (class set by Alpine on <body>) */
+    body.sidebar-collapsed .CodeMirror-fullscreen,
+    body.sidebar-collapsed .editor-toolbar.fullscreen,
+    body.sidebar-collapsed .EasyMDEContainer.sided .CodeMirror-sided,
+    body.sidebar-collapsed .editor-preview-active-side {
+        left: 3.5rem !important;
+    }
+}
+

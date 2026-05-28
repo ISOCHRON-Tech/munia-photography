@@ -88,13 +88,15 @@
             @endif
             <div class="flex items-center gap-3 mt-2">
                 <a href="{{ route('admin.media.edit', $item) }}"
-                   class="text-xs text-[#1a0d14]/70 hover:text-[#ff1493] transition-colors">Edit</a>
+                   class="text-xs text-[#1a0d14]/70 hover:text-[#ff1493] transition-colors flex items-center gap-1">
+                    <i class="fa-solid fa-pen-to-square"></i> Edit</a>
                 <form method="POST" action="{{ route('admin.media.destroy', $item) }}"
                       onsubmit="return confirm('Delete this photograph permanently?')">
                     @csrf
                     @method('DELETE')
                     <button type="submit"
-                            class="text-xs text-red-500 hover:text-red-400 transition-colors">Delete</button>
+                            class="text-xs text-red-500 hover:text-red-400 transition-colors flex items-center gap-1">
+                        <i class="fa-solid fa-trash"></i> Delete</button>
                 </form>
             </div>
         </div>

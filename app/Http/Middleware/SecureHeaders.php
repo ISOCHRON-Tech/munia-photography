@@ -27,20 +27,22 @@ class SecureHeaders
             : "script-src 'self' 'unsafe-inline' 'unsafe-eval'";
 
         $styleSrc = $isDev
-            ? "style-src 'self' 'unsafe-inline' http://127.0.0.1:5173 https://fonts.googleapis.com"
+            ? "style-src 'self' 'unsafe-inline' http://127.0.0.1:5173 https://fonts.googleapis.com https://cdnjs.cloudflare.com"
             : "style-src 'self' 'unsafe-inline'";
 
         $fontSrc = $isDev
-            ? "font-src 'self' data: https://fonts.googleapis.com https://fonts.gstatic.com"
+            ? "font-src 'self' data: https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com"
             : "font-src 'self' data:";
 
         $connectSrc = $isDev
             ? "connect-src 'self' http://127.0.0.1:5173 ws://127.0.0.1:5173"
             : "connect-src 'self'";
 
+        $r2PublicUrl = rtrim((string) env('R2_PUBLIC_URL', ''), '/');
+
         $imgSrc = $isDev
-            ? "img-src 'self' data: blob: http://127.0.0.1:5173 https://picsum.photos https://fastly.picsum.photos"
-            : "img-src 'self' data: blob:";
+            ? "img-src 'self' data: blob: http://127.0.0.1:5173 https://picsum.photos https://fastly.picsum.photos" . ($r2PublicUrl ? " $r2PublicUrl" : '')
+            : "img-src 'self' data: blob:" . ($r2PublicUrl ? " $r2PublicUrl" : '');
 
         $cspParts = [
             "default-src 'self'",

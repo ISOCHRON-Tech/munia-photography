@@ -40,17 +40,20 @@
             <td class="py-4">
                 <div class="flex items-center gap-4">
                     <a href="{{ route('admin.stories.edit', $story) }}"
-                       class="text-[#8b3a6e] hover:text-[#ff1493] transition-colors">Edit</a>
+                       class="text-[#8b3a6e] hover:text-[#ff1493] transition-colors flex items-center gap-1.5">
+                        <i class="fa-solid fa-pen-to-square text-xs"></i> Edit</a>
 
                     @if($story->status === 'published')
                     <a href="{{ route('stories.show', $story->slug) }}" target="_blank"
-                       class="text-[#8b3a6e] hover:text-[#1a0d14] transition-colors">View</a>
+                       class="text-[#8b3a6e] hover:text-[#1a0d14] transition-colors flex items-center gap-1.5">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i> View</a>
                     @endif
 
                     <form method="POST" action="{{ route('admin.stories.destroy', $story) }}"
                           onsubmit="return confirm('Delete this story permanently?')">
                         @csrf @method('DELETE')
-                        <button type="submit" class="text-red-600 hover:text-red-400 transition-colors">Delete</button>
+                        <button type="submit" class="text-red-600 hover:text-red-400 transition-colors flex items-center gap-1.5">
+                            <i class="fa-solid fa-trash text-xs"></i> Delete</button>
                     </form>
                 </div>
             </td>
