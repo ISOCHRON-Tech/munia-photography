@@ -1,0 +1,36 @@
+{
+  "_alpine-eTHrBq0G.js": {
+    "file": "assets/alpine-eTHrBq0G.js",
+    "name": "alpine"
+  },
+  "_gsap-B2JeSRMT.js": {
+    "file": "assets/gsap-B2JeSRMT.js",
+    "name": "gsap"
+  },
+  "_rolldown-runtime-BHe-jwch.js": {
+    "file": "assets/rolldown-runtime-BHe-jwch.js",
+    "name": "rolldown-runtime"
+  },
+  "resources/js/admin-upload.js": {
+    "file": "assets/admin-upload-BohyZN5B.js",
+    "name": "admin-upload",
+    "src": "resources/js/admin-upload.js",
+    "isEntry": true,
+    "imports": [
+      "_rolldown-runtime-BHe-jwch.js"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-Di2Gnjrq.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "imports": [
+      "_alpine-eTHrBq0G.js",
+      "_gsap-B2JeSRMT.js"
+    ],
+    "css": [
+      "assets/app-BJhrpP2K.css"
+    ]
+  }
+}
