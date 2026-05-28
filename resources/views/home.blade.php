@@ -12,9 +12,9 @@
     <div id="hp-preloader-content">
         <div id="hp-preloader-letters">
             <span class="hp-pre-letter">M</span>
-            <span class="hp-pre-letter">O</span>
+            <span class="hp-pre-letter">U</span>
             <span class="hp-pre-letter">N</span>
-            <span class="hp-pre-letter">E</span>
+            <span class="hp-pre-letter">I</span>
             <span class="hp-pre-letter">A</span>
         </div>
         <div id="hp-preloader-line"><div id="hp-preloader-fill"></div></div>
@@ -85,11 +85,14 @@
         <span>scroll</span>
     </div>
 
-    {{-- ── Hello Kitty ── --}}
-    <img src="/images/kitty/kitty-full.png"
+    {{-- ── Hello Kitty animations ── --}}
+    <img src="/images/kitty/kitty_animation.gif"
          alt="" aria-hidden="true"
-         class="kitty-deco hidden md:block"
-         style="bottom:0;right:3%;width:clamp(180px,18vw,280px);z-index:2;"
+         class="kitty-deco kitty-deco--left hidden md:block"
+         loading="lazy" draggable="false">
+    <img src="/images/kitty/kitty_animation_1.gif"
+         alt="" aria-hidden="true"
+         class="kitty-deco kitty-deco--right hidden md:block"
          loading="lazy" draggable="false">
 
 </section>

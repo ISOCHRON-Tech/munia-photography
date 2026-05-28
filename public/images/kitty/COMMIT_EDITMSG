@@ -1,0 +1,19 @@
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch master
+# Your branch is ahead of 'origin/master' by 1 commit.
+#   (use "git push" to publish your local commits)
+#
+# Changes to be committed:
+#	new file:   kitty_animation.gif
+#	new file:   kitty_animation_1.gif
+#	modified:   public/build/manifest.json
+#	modified:   resources/css/app.css
+#	modified:   resources/views/admin/login.blade.php
+#	modified:   resources/views/gallery/show.blade.php
+#	modified:   resources/views/home.blade.php
+#	modified:   resources/views/layouts/admin.blade.php
+#	modified:   resources/views/layouts/app.blade.php
+#

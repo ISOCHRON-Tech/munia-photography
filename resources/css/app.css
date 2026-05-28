@@ -1139,6 +1139,18 @@ html {
     -webkit-user-drag: none;
     image-rendering: -webkit-optimize-contrast;
 }
+.kitty-deco--left {
+    bottom: 0;
+    left: 1%;
+    width: clamp(140px, 14vw, 220px);
+    z-index: 2;
+}
+.kitty-deco--right {
+    bottom: 0;
+    right: 1%;
+    width: clamp(160px, 16vw, 260px);
+    z-index: 2;
+}
 
 /* ── EasyMDE light (Hello Kitty) theme ──────────────────────── */
 .EasyMDEContainer .CodeMirror {
