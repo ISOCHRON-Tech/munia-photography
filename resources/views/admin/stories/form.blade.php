@@ -3,7 +3,7 @@
 
 @section('content')
 <div class="max-w-3xl">
-    <h1 class="text-2xl font-display text-[#f5f0eb] mb-8">
+    <h1 class="text-2xl font-display text-[#1a0d14] mb-8">
         {{ isset($story) ? 'Edit: ' . $story->title : 'New Story' }}
     </h1>
 
@@ -39,7 +39,7 @@
             @endif
             @endisset
             <input type="file" name="banner" accept="image/jpeg,image/png,image/webp"
-                   class="block text-sm text-[#9e9e9e] file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-[#2e2e2e] file:text-[#f5f0eb] hover:file:bg-[#3a3a3a] cursor-pointer">
+                   class="block text-sm text-[#8b3a6e] file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-[#ffcde8] file:text-[#1a0d14] hover:file:bg-[#ffb3d9] cursor-pointer">
         </div>
 
         {{-- Content --}}
@@ -50,7 +50,7 @@
         </div>
 
         {{-- SEO --}}
-        <fieldset class="border border-[#2e2e2e] rounded p-5 space-y-4">
+        <fieldset class="border border-[#ffb3d9] rounded p-5 space-y-4">
             <legend class="label-xs px-2">SEO</legend>
 
             <div>
@@ -86,11 +86,11 @@
 
         <div class="flex gap-4 pt-2">
             <button type="submit"
-                    class="px-6 py-2 bg-[#c9a84c] text-[#0a0a0a] text-sm font-medium rounded hover:bg-[#b8943e] transition-colors">
+                    class="px-6 py-2 bg-[#ff1493] text-white text-sm font-medium rounded hover:bg-[#c71585] transition-colors">
                 {{ isset($story) ? 'Update Story' : 'Create Story' }}
             </button>
             <a href="{{ route('admin.stories.index') }}"
-               class="px-4 py-2 text-sm text-[#9e9e9e] hover:text-[#f5f0eb] transition-colors">
+               class="px-4 py-2 text-sm text-[#8b3a6e] hover:text-[#1a0d14] transition-colors">
                 Cancel
             </a>
         </div>
@@ -98,7 +98,7 @@
 </div>
 
 <style>
-.label-xs   { @apply block text-xs tracking-widest uppercase text-[#9e9e9e] mb-1; }
-.field-input { @apply w-full bg-[#1a1a1a] border border-[#2e2e2e] rounded px-4 py-2 text-sm text-[#f5f0eb] focus:outline-none focus:border-[#c9a84c]; }
+.label-xs   { @apply block text-xs tracking-widest uppercase text-[#8b3a6e] mb-1; }
+.field-input { @apply w-full bg-[#ffe4f0] border border-[#ffb3d9] rounded px-4 py-2 text-sm text-[#1a0d14] focus:outline-none focus:border-[#ff1493]; }
 </style>
 @endsection

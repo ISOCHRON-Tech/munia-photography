@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:300,400,500|playfair-display:400,400i&display=swap" rel="stylesheet">
 </head>
-<body class="h-full bg-[#0a0a0a] text-[#f5f0eb] antialiased">
+<body class="h-full bg-[#0a0a0a] text-[#1a0d14] antialiased">
 
 <div class="min-h-screen flex">
 
@@ -24,7 +24,7 @@
         <div class="absolute bottom-0 right-0 w-16 h-16 border-r border-b border-[#1e1e1e]"></div>
 
         <div class="relative text-center select-none">
-            <span class="block font-display text-[5.5rem] leading-none tracking-[0.2em] uppercase text-[#f5f0eb]">
+            <span class="block font-display text-[5.5rem] leading-none tracking-[0.2em] uppercase text-[#1a0d14]">
                 Monea
             </span>
             <div class="mt-5 flex items-center gap-4">
@@ -52,7 +52,7 @@
             {{-- Mobile brand --}}
             <div class="lg:hidden text-center mb-14">
                 <a href="{{ route('home') }}"
-                   class="font-display text-4xl tracking-[0.25em] uppercase text-[#f5f0eb] hover:text-[#c9a84c] transition-colors">
+                   class="font-display text-4xl tracking-[0.25em] uppercase text-[#1a0d14] hover:text-[#ff1493] transition-colors">
                     Monea
                 </a>
             </div>
@@ -75,7 +75,7 @@
             @endif
 
             @if(session('status'))
-            <div class="mb-7 px-4 py-3.5 border border-[#2a2a2a] text-[#9e9e9e] text-sm">
+            <div class="mb-7 px-4 py-3.5 border border-[#2a2a2a] text-[#8b3a6e] text-sm">
                 {{ session('status') }}
             </div>
             @endif
@@ -93,9 +93,9 @@
                     <input type="email" id="email" name="email"
                            value="{{ old('email') }}"
                            required autocomplete="email"
-                           class="w-full bg-[#0f0f0f] border @error('email') border-red-800 @else border-[#242424] @enderror
-                                  focus:border-[#c9a84c] focus:outline-none
-                                  text-[#f5f0eb] placeholder-[#343434]
+                           class="w-full bg-[#fff0f5] border @error('email') border-red-800 @else border-[#242424] @enderror
+                                  focus:border-[#ff1493] focus:outline-none
+                                  text-[#1a0d14] placeholder-[#343434]
                                   px-4 py-3 text-sm transition-colors duration-200">
                 </div>
 
@@ -109,12 +109,12 @@
                         <input :type="show ? 'text' : 'password'"
                                id="password" name="password"
                                required autocomplete="current-password"
-                               class="w-full bg-[#0f0f0f] border @error('password') border-red-800 @else border-[#242424] @enderror
-                                      focus:border-[#c9a84c] focus:outline-none
-                                      text-[#f5f0eb]
+                               class="w-full bg-[#fff0f5] border @error('password') border-red-800 @else border-[#242424] @enderror
+                                      focus:border-[#ff1493] focus:outline-none
+                                      text-[#1a0d14]
                                       px-4 py-3 text-sm pr-11 transition-colors duration-200">
                         <button type="button" @click="show = !show" tabindex="-1"
-                                class="absolute inset-y-0 right-0 w-10 flex items-center justify-center text-[#3a3a3a] hover:text-[#9e9e9e] transition-colors">
+                                class="absolute inset-y-0 right-0 w-10 flex items-center justify-center text-[#3a3a3a] hover:text-[#8b3a6e] transition-colors">
                             {{-- eye --}}
                             <svg x-show="!show" class="w-4 h-4" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -132,8 +132,8 @@
                 </div>
 
                 <button type="submit"
-                        class="w-full mt-2 bg-[#c9a84c] hover:bg-[#b8942f] active:bg-[#a07f25]
-                               text-[#0a0a0a] text-[11px] font-medium tracking-[0.3em] uppercase
+                        class="w-full mt-2 bg-[#ff1493] hover:bg-[#b8942f] active:bg-[#a07f25]
+                               text-white text-[11px] font-medium tracking-[0.3em] uppercase
                                py-4 transition-colors duration-200">
                     Sign in
                 </button>

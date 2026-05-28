@@ -6,6 +6,7 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\StoryController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\StoryController as AdminStoryController;
 use App\Http\Middleware\EnsureAdminAuthenticated;
@@ -44,6 +45,10 @@ Route::prefix('admin')->name('admin.')->middleware([EnsureAdminAuthenticated::cl
     // Media uploads
     Route::resource('media', MediaController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
     Route::patch('media/{media}/feature', [MediaController::class, 'feature'])->name('media.feature');
+
+    // Categories (inline creation + search)
+    Route::get('categories',       [CategoryController::class, 'index'])->name('categories.index');
+    Route::post('categories',      [CategoryController::class, 'store'])->name('categories.store');
 
     // Stories
     Route::resource('stories', AdminStoryController::class)

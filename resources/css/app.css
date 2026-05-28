@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+@import 'cropperjs/dist/cropper.css';
+@import 'easymde/dist/easymde.min.css';
 @plugin '@tailwindcss/typography';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -1133,4 +1135,59 @@ html {
     -webkit-user-drag: none;
     image-rendering: -webkit-optimize-contrast;
 }
+
+/* ── EasyMDE light (Hello Kitty) theme ──────────────────────── */
+.EasyMDEContainer .CodeMirror {
+    background: #fff0f5;
+    color: #1a0d14;
+    border-color: #ffb3d9;
+    border-radius: 0 0 4px 4px;
+    font-family: ui-monospace, monospace;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+.EasyMDEContainer .CodeMirror-scroll { min-height: 120px; }
+.EasyMDEContainer .CodeMirror-selected { background: rgba(255,20,147,0.12) !important; }
+.EasyMDEContainer .CodeMirror-cursor { border-left-color: #ff1493; }
+.EasyMDEContainer .CodeMirror-placeholder { color: #c4607a !important; }
+.EasyMDEContainer .editor-toolbar {
+    background: #ffd6eb;
+    border-color: #ffb3d9;
+    border-radius: 4px 4px 0 0;
+    opacity: 1;
+}
+.EasyMDEContainer .editor-toolbar button {
+    color: #8b3a6e !important;
+    border-color: transparent;
+}
+.EasyMDEContainer .editor-toolbar button:hover,
+.EasyMDEContainer .editor-toolbar button.active {
+    background: #ffcde8 !important;
+    border-color: #f090c0 !important;
+    color: #1a0d14 !important;
+}
+/* SVG icons are dark — they look fine on the pink toolbar already */
+.EasyMDEContainer .editor-toolbar span[data-img-src]::after {
+    filter: none;
+}
+.EasyMDEContainer .editor-toolbar i.separator {
+    border-color: #ffb3d9;
+}
+.EasyMDEContainer .editor-preview {
+    background: #fff0f5;
+    color: #1a0d14;
+    border-color: #ffb3d9;
+}
+.EasyMDEContainer .editor-preview-side {
+    background: #fff0f5;
+    border-color: #ffb3d9;
+    color: #1a0d14;
+}
+.EasyMDEContainer .editor-statusbar { color: #c4607a; }
+.EasyMDEContainer .editor-preview h1,
+.EasyMDEContainer .editor-preview h2,
+.EasyMDEContainer .editor-preview h3 { color: #1a0d14; border-color: #ffb3d9; }
+.EasyMDEContainer .editor-preview a { color: #ff1493; }
+.EasyMDEContainer .editor-preview code { background: #ffe4f0; color: #1a0d14; }
+.EasyMDEContainer .editor-preview blockquote { border-left-color: #ff1493; color: #8b3a6e; }
 
