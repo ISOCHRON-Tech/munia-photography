@@ -7,13 +7,14 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\MediaItem;
 use App\Support\HomeDummyData;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\View\View;
 
 class GalleryController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request): View|JsonResponse
     {
         $categorySlug = $request->query('category');
         $tagSlug      = $request->query('tag');
@@ -49,6 +50,17 @@ class GalleryController extends Controller
 
         if ($categories->isEmpty()) {
             $categories = HomeDummyData::galleryCategories();
+        }
+
+        if ($request->ajax()) {
+            $gridHtml = '';
+            foreach ($items as $item) {
+                $gridHtml .= view('components.photo-card', ['item' => $item])->render();
+            }
+            $paginationHtml = $items->hasPages()
+                ? (string) $items->links('vendor.pagination.tailwind')
+                : '';
+            return response()->json(['grid' => $gridHtml, 'pagination' => $paginationHtml]);
         }
 
         return view('gallery.index', compact('items', 'categories', 'categorySlug', 'tagSlug'));

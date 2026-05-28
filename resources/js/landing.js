@@ -212,11 +212,8 @@ function runPreloader() {
 }
 
 function initAnimations() {
-    animateHero()
-    heroParallax()
     revealSections()
     animateCards()
-    initHeroAmbient()
 }
 
 // ── Hero ambient Three.js particles (post-preloader) ──────────────────────────

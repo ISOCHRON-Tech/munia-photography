@@ -10,19 +10,16 @@
     <canvas id="gallery-bg" aria-hidden="true"></canvas>
 
     {{-- ── Header ── --}}
-    <div class="mb-12 text-center relative" style="background-color:#fff0f5;">
-        <h1 class="font-display text-5xl md:text-7xl tracking-tight mb-4 text-[#1a0d14]">
-            Gallery
+    <div class="mb-12 py-10 text-center relative" style="min-height:180px;">
+        <h1 class="font-display text-5xl md:text-7xl tracking-tight mb-3 text-[#1a0d14]">
+            <span class="text-[#ff1493]">G</span>allery
         </h1>
-        <p class="text-[#9e9e9e] text-sm tracking-widest uppercase">
-            {{ $items->total() }} photographs
-        </p>
 
         {{-- Hello Kitty decoration --}}
         <img src="/images/kitty/kitty-kawaii.png"
              alt="" aria-hidden="true"
              class="kitty-deco hidden md:block"
-             style="top:50%;right:-2rem;transform:translateY(-50%);width:clamp(140px,13vw,200px);z-index:5;background-color:#fff0f5;"
+             style="top:50%;right:2rem;transform:translateY(-50%);width:clamp(120px,12vw,180px);z-index:5;"
              loading="lazy" draggable="false">
     </div>
 
@@ -55,7 +52,7 @@
 
     {{-- Pagination --}}
     @if($items->hasPages())
-    <div class="mt-16 flex justify-center">
+    <div class="mt-16 flex justify-center" id="gallery-pagination">
         {{ $items->links('vendor.pagination.tailwind') }}
     </div>
     @endif
@@ -69,15 +66,18 @@
     font-size: 0.75rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    border: 1px solid #2e2e2e;
+    border: 1px solid #ffcde8;
     border-radius: 9999px;
-    color: #9e9e9e;
-    transition: all 0.2s ease;
+    color: #c4607a;
+    background: transparent;
+    transition: all 0.25s ease;
 }
 .filter-pill:hover,
 .filter-pill--active {
-    border-color: #c9a84c;
-    color: #c9a84c;
+    border-color: #ff1493;
+    color: #ff1493;
+    background: rgba(255, 20, 147, 0.06);
+    box-shadow: 0 0 12px rgba(255, 20, 147, 0.18);
 }
 </style>
 @endsection

@@ -7,6 +7,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 // ─── Lightbox state ──────────────────────────────────────────────────────────
 let lightboxActive = false
+let backdrop       = null
 
 export function initGallery() {
     initGalleryBg()
@@ -15,6 +16,7 @@ export function initGallery() {
     initCardTilts()
     initLazyImages()
     initLightbox()
+    initFilterPills()
 }
 
 // ─── Three.js ambient dust background ────────────────────────────────────────
@@ -31,7 +33,7 @@ function animateGalleryHeader() {
     const h1 = document.querySelector('[data-page="gallery"] h1')
     if (!h1) return
 
-    const raw = h1.textContent
+    const raw = h1.textContent.trim()
     h1.setAttribute('aria-label', raw)
     h1.innerHTML = [...raw].map(ch =>
         `<span class="gallery-char" style="display:inline-block">${ch === ' ' ? '&nbsp;' : ch}</span>`
@@ -49,8 +51,8 @@ function animateGalleryHeader() {
 }
 
 // ─── 3D perspective card tilt ─────────────────────────────────────────────────
-function initCardTilts() {
-    const cards = document.querySelectorAll('.gallery-item')
+function initCardTilts(root = document) {
+    const cards = root.querySelectorAll('.gallery-item')
     if (!cards.length) return
 
     cards.forEach(card => {
@@ -120,8 +122,8 @@ function revealOnScroll() {
 }
 
 // ─── Native lazy load + LQIP reveal ─────────────────────────────────────────
-function initLazyImages() {
-    const imgs = document.querySelectorAll('img[data-src]')
+function initLazyImages(root = document) {
+    const imgs = root.querySelectorAll('img[data-src]')
 
     const observer = new IntersectionObserver(
         (entries) => {
@@ -149,17 +151,17 @@ function initLazyImages() {
 
 // ─── Lightbox ────────────────────────────────────────────────────────────────
 function initLightbox() {
-    const cards = document.querySelectorAll('.photo-card[data-full]')
-    if (!cards.length) return
+    if (backdrop) return  // already initialised
 
-    const backdrop = createBackdrop()
+    backdrop = createBackdrop()
     document.body.appendChild(backdrop)
 
-    cards.forEach((card) => {
-        card.addEventListener('click', () => openLightbox(backdrop, card))
+    // Event delegation — handles cards loaded dynamically via AJAX filter too
+    document.addEventListener('click', e => {
+        const card = e.target.closest('.photo-card[data-full]')
+        if (card) openLightbox(backdrop, card)
     })
 
-    // Close on backdrop click or Escape key
     backdrop.addEventListener('click', (e) => {
         if (e.target === backdrop || e.target.classList.contains('lb-close')) {
             closeLightbox(backdrop)
@@ -229,5 +231,57 @@ function closeLightbox(backdrop) {
             backdrop.classList.remove('flex')
             document.body.style.overflow = ''
         },
+    })
+}
+
+// ─── AJAX Category Filter ─────────────────────────────────────────────────────
+function initFilterPills() {
+    const nav = document.querySelector('[aria-label="Filter by category"]')
+    if (!nav) return
+
+    nav.addEventListener('click', async e => {
+        const pill = e.target.closest('a.filter-pill')
+        if (!pill) return
+        e.preventDefault()
+
+        const url    = pill.href
+        const grid   = document.getElementById('gallery-grid')
+        const pgWrap = document.getElementById('gallery-pagination')
+        if (!grid) { window.location.href = url; return }
+
+        // Swap active pill state immediately
+        nav.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('filter-pill--active'))
+        pill.classList.add('filter-pill--active')
+
+        // Fade out grid while fetching
+        gsap.to(grid, { opacity: 0, duration: 0.2, ease: 'power2.in' })
+
+        try {
+            const res = await fetch(url, {
+                headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' },
+            })
+            if (!res.ok) throw new Error()
+            const { grid: gridHtml, pagination: paginationHtml } = await res.json()
+
+            // Swap content
+            grid.innerHTML = gridHtml
+            if (pgWrap) pgWrap.innerHTML = paginationHtml ?? ''
+
+            // Re-init interactions for newly inserted cards
+            initCardTilts(grid)
+            initLazyImages(grid)
+
+            // Stagger fade-in
+            const newCards = grid.querySelectorAll('.gallery-item')
+            gsap.fromTo(newCards,
+                { opacity: 0, y: 20 },
+                { opacity: 1, y: 0, duration: 0.5, stagger: 0.04, ease: 'power2.out' }
+            )
+
+            // Reflect URL change without a full reload
+            history.pushState({}, '', url)
+        } catch {
+            window.location.href = url  // graceful fallback
+        }
     })
 }

@@ -122,7 +122,7 @@
            data-hp-card
            aria-label="{{ $item->title ?? 'Photograph ' . ($i + 1) }}">
 
-            <div class="hp-work-card__inner" style="--ar: {{ $item->aspect_ratio ?? '66.67%' }}">
+            <div class="hp-work-card__inner">
 
                 @php
                     $lqip = null;

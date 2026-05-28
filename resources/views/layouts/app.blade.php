@@ -107,6 +107,7 @@
             <nav class="flex gap-8" aria-label="Footer navigation">
                 <a href="{{ route('gallery.index') }}" class="hover:text-[#c9a84c] transition-colors">Gallery</a>
                 <a href="{{ route('stories.index') }}" class="hover:text-[#c9a84c] transition-colors">Stories</a>
+                <a href="{{ route('admin.login') }}" class="hover:text-[#c9a84c] transition-colors opacity-40 hover:opacity-100">Admin</a>
             </nav>
         </div>
     </footer>
