@@ -30,15 +30,14 @@ Route::prefix('stories')->name('stories.')->group(function () {
 Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/login',  [AdminAuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AdminAuthController::class, 'login'])->name('login.post')
-         ->middleware('throttle:5,10');
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('login.post');
     Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
 });
 
 // ─── Admin protected area ────────────────────────────────────────────────────
 
-Route::prefix('admin')->name('admin.')->middleware([EnsureAdminAuthenticated::class, 'throttle:admin'])->group(function () {
+Route::prefix('admin')->name('admin.')->middleware([EnsureAdminAuthenticated::class])->group(function () {
 
     Route::get('/', fn () => redirect()->route('admin.media.index'));
 

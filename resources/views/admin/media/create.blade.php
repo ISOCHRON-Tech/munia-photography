@@ -44,7 +44,7 @@
                 <textarea x-model="description" rows="3" maxlength="2000"
                           class="w-full bg-[#1a1a1a] border border-[#2e2e2e] rounded px-4 py-2 text-sm text-[#f5f0eb] focus:outline-none focus:border-[#c9a84c] resize-none"></textarea>
             </div>
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-xs tracking-widest uppercase text-[#9e9e9e] mb-1">Category</label>
                     <select x-model="categoryId"
@@ -117,7 +117,7 @@ function uploader() {
         description: '',
         tags:        '',
         categoryId:  '',
-        isFeatured:  false,,
+        isFeatured:  false,
 
         init() {},
 

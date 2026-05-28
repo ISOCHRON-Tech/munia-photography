@@ -10,7 +10,8 @@
     </a>
 </div>
 
-<table class="w-full text-sm border-collapse">
+<div class="overflow-x-auto -mx-4 px-4">
+<table class="w-full text-sm border-collapse min-w-[480px]">
     <thead>
         <tr class="text-left text-[#9e9e9e] text-xs tracking-widest uppercase border-b border-[#2e2e2e]">
             <th class="pb-3 pr-4 font-normal">Title</th>
@@ -65,4 +66,5 @@
 @if($stories->hasPages())
 <div class="mt-8">{{ $stories->links('vendor.pagination.tailwind') }}</div>
 @endif
+</div>
 @endsection

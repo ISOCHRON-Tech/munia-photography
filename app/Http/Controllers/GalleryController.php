@@ -39,8 +39,15 @@ class GalleryController extends Controller
         // ── Dummy data fallback (no DB records yet) ───────────────────────
         if ($items->isEmpty()) {
             $dummyItems = HomeDummyData::galleryItems();
+
+            if ($categorySlug) {
+                $dummyItems = $dummyItems->filter(
+                    fn ($item) => ($item->category?->slug ?? '') === $categorySlug
+                );
+            }
+
             $items = new LengthAwarePaginator(
-                $dummyItems->all(),
+                $dummyItems->values()->all(),
                 $dummyItems->count(),
                 24,
                 1,

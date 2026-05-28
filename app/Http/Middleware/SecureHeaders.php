@@ -23,8 +23,8 @@ class SecureHeaders
         $isDev = app()->environment('local');
 
         $scriptSrc = $isDev
-            ? "script-src 'self' 'unsafe-inline' http://127.0.0.1:5173"
-            : "script-src 'self' 'unsafe-inline'";
+            ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' http://127.0.0.1:5173"
+            : "script-src 'self' 'unsafe-inline' 'unsafe-eval'";
 
         $styleSrc = $isDev
             ? "style-src 'self' 'unsafe-inline' http://127.0.0.1:5173 https://fonts.bunny.net"
@@ -39,7 +39,7 @@ class SecureHeaders
             : "connect-src 'self'";
 
         $imgSrc = $isDev
-            ? "img-src 'self' data: blob: https://picsum.photos https://fastly.picsum.photos"
+            ? "img-src 'self' data: blob: http://127.0.0.1:5173 https://picsum.photos https://fastly.picsum.photos"
             : "img-src 'self' data: blob:";
 
         $cspParts = [

@@ -108,7 +108,7 @@
                 </div>
 
                 {{-- Category + Sort order --}}
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs tracking-widest uppercase text-[#9e9e9e] mb-1">Category</label>
                         <select name="category_id"

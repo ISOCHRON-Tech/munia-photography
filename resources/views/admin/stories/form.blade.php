@@ -68,7 +68,7 @@
         </fieldset>
 
         {{-- Status + Publish Date --}}
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
                 <label class="label-xs">Status *</label>
                 <select name="status" class="field-input">

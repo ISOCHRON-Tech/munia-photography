@@ -2,7 +2,7 @@
 @section('title', $section === 'featured' ? 'Featured Photos' : 'Gallery')
 
 @section('content')
-<div class="flex items-center justify-between mb-6">
+<div class="flex flex-wrap items-start justify-between gap-3 mb-6">
     <div>
         <h1 class="text-2xl font-display text-[#f5f0eb]">
             {{ $section === 'featured' ? 'Featured Photos' : 'Gallery' }}
