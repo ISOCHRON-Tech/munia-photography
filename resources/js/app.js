@@ -6,7 +6,6 @@ import { initLanding } from './landing'
 import { initGallery } from './gallery'
 import { initStory } from './story'
 import { initNav } from './nav'
-import { initCursor } from './cursor'
 import { initStoriesIndex } from './stories-index'
 
 // ─── Alpine ──────────────────────────────────────────────────────────────────
@@ -18,7 +17,6 @@ Alpine.start()
 document.addEventListener('DOMContentLoaded', () => {
     initPreloader()
     initNav()
-    initCursor()
 
     if (document.querySelector('[data-page="home"]')) {
         initLanding()

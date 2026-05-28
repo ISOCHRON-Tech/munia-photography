@@ -21,6 +21,20 @@
     --color-gold-dim:  #c71585;
 }
 
+/* ─── Custom Cursor ─────────────────────────────────────────────────────── */
+html {
+    cursor: url('/images/cursor/cursor.png') 16 15, auto;
+}
+a, button, [role="button"], input, select, textarea, label,
+.gallery-item, .filter-pill, .nav-link, #nav-burger, #nav-logo {
+    cursor: url('/images/cursor/cursor.png') 16 15, auto;
+}
+a:hover, button:hover, [role="button"]:hover, input:hover, select:hover,
+textarea:hover, label:hover, .gallery-item:hover, .filter-pill:hover,
+.nav-link:hover, #nav-burger:hover, #nav-logo:hover {
+    cursor: url('/images/cursor/cursor-hover.png') 20 19, pointer;
+}
+
 /* ─── Base ──────────────────────────────────────────────────────────────── */
 html {
     scroll-behavior: smooth;
@@ -1106,48 +1120,7 @@ html {
     will-change: transform, opacity;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   CUSTOM CURSOR (desktop only)
-═══════════════════════════════════════════════════════════════════════════ */
 
-#cursor-dot,
-#cursor-ring {
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    z-index: 10000;
-    border-radius: 50%;
-    will-change: transform;
-}
-
-#cursor-dot {
-    width: 6px;
-    height: 6px;
-    background: #ff1493;
-    opacity: 0;
-}
-
-#cursor-ring {
-    width: 30px;
-    height: 30px;
-    border: 1px solid rgba(255, 20, 147, 0.65);
-    background: transparent;
-    opacity: 0;
-}
-
-/* Hide default system cursor on fine-pointer devices */
-@media (pointer: fine) {
-    html, body, a, button, [role="button"],
-    .gallery-item, .filter-pill, .nav-link, #nav-burger, #nav-logo {
-        cursor: none !important;
-    }
-}
-
-/* Hide cursor elements on touch devices */
-@media (pointer: coarse) {
-    #cursor-dot, #cursor-ring { display: none; }
-}
 
 /* ── Hello Kitty decorations ────────────────────────────────── */
 .kitty-deco {
