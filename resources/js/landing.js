@@ -142,7 +142,12 @@ function runPreloader() {
     tick()
 
     // ── Text entrance animation ─────────────────────────────────────────────
-    gsap.set(letters, { opacity: 0, y: 50, rotateX: -60 })
+    // Each letter starts with its own unique pose
+    gsap.set(letters[0], { opacity: 0, y: -80, rotation: -14 })        // M: crash from above
+    gsap.set(letters[1], { opacity: 0, x: -70, skewX: 28 })           // U: slide from left
+    gsap.set(letters[2], { opacity: 0, scale: 0.05, rotation: 200 })  // N: spin-pop
+    gsap.set(letters[3], { opacity: 0, rotateY: 90 })                  // I: 3-D flip
+    gsap.set(letters[4], { opacity: 0, y: 80, rotation: 14 })         // A: rise from below
     gsap.set(sub, { opacity: 0, y: 14 })
     gsap.set(fill, { scaleX: 0, transformOrigin: 'left center' })
 
@@ -153,15 +158,16 @@ function runPreloader() {
     // fade in the particle cloud
     tl.to(mat, { opacity: 0.85, duration: 1.0, ease: 'power2.out' })
 
-    // letters stagger in
-    tl.to(letters, {
-        opacity:  1,
-        y:        0,
-        rotateX:  0,
-        duration: 0.65,
-        stagger:  0.09,
-        ease:     'expo.out',
-    }, '-=0.45')
+    // M — drops from top with bounce
+    tl.to(letters[0], { opacity: 1, y: 0, rotation: 0, duration: 0.65, ease: 'bounce.out' }, '-=0.45')
+    // U — slides in from left, skew snaps straight
+    tl.to(letters[1], { opacity: 1, x: 0, skewX: 0, duration: 0.55, ease: 'power3.out' }, '-=0.38')
+    // N — spins & scales up with overshoot
+    tl.to(letters[2], { opacity: 1, scale: 1, rotation: 0, duration: 0.65, ease: 'back.out(2.5)' }, '-=0.38')
+    // I — 3-D card flip
+    tl.to(letters[3], { opacity: 1, rotateY: 0, duration: 0.5, ease: 'power2.out' }, '-=0.38')
+    // A — elastic rise from below
+    tl.to(letters[4], { opacity: 1, y: 0, rotation: 0, duration: 0.85, ease: 'elastic.out(1, 0.45)' }, '-=0.32')
 
     // gold line fills
     tl.to(fill, { scaleX: 1, duration: 0.7, ease: 'power2.inOut' }, '-=0.1')
