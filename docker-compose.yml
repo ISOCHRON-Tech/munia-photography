@@ -1,0 +1,61 @@
+# munu-photo — Docker Compose
+#
+# App  → host port 8741  (system Nginx proxies to this)
+# MySQL→ host port 33061 (local access only)
+#
+# System Nginx reverse proxy snippet — add to your server block:
+# ─────────────────────────────────────────────────────────────
+#   location / {
+#       proxy_pass         http://127.0.0.1:8741;
+#       proxy_http_version 1.1;
+#       proxy_set_header   Host              $host;
+#       proxy_set_header   X-Real-IP         $remote_addr;
+#       proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+#       proxy_set_header   X-Forwarded-Proto $scheme;
+#   }
+# ─────────────────────────────────────────────────────────────
+
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: munia_app
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8741:80"   # only localhost — system Nginx faces the internet
+    env_file: .env
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+    volumes:
+      - storage_data:/var/www/html/storage/app
+      - logs_data:/var/www/html/storage/logs
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:8.0
+    container_name: munia_db
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:33061:3306"  # only localhost — not exposed to internet
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-changeme_root}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASSWORD:-changeme_root}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  mysql_data:
+  storage_data:
+  logs_data:
