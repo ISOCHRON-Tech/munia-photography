@@ -44,6 +44,7 @@ document.addEventListener('alpine:init', () => {
                 this._mde = new EasyMDE({
                     element: ta,
                     spellChecker: false,
+                    autoDownloadFontAwesome: false,
                     autosave: { enabled: false },
                     status: false,
                     toolbar: [

@@ -5,8 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Admin — @yield('title', 'Dashboard') · Monea</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
     @stack('before_alpine')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        html, a, button, [role="button"], input, select, textarea, label {
+            cursor: url('{{ asset('images/cursor/cursor.png') }}') 16 15, auto;
+        }
+        a:hover, button:hover, [role="button"]:hover, input:hover, select:hover,
+        textarea:hover, label:hover {
+            cursor: url('{{ asset('images/cursor/cursor-hover.png') }}') 20 19, pointer;
+        }
+    </style>
     @stack('styles')
     @stack('head_scripts')
 </head>

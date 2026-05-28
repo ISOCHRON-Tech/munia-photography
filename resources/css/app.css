@@ -9,8 +9,8 @@
 /* ─── Custom Design Tokens ─────────────────────────────────────────────── */
 @theme {
     /* Typography */
-    --font-sans:    'Nunito', ui-sans-serif, system-ui, sans-serif;
-    --font-display: 'Pacifico', cursive;
+    --font-sans:    'Lexend', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Lexend', ui-sans-serif, system-ui, sans-serif;
 
     /* Brand palette — Hello Kitty */
     --color-obsidian:  #fff0f5;
@@ -23,19 +23,7 @@
     --color-gold-dim:  #c71585;
 }
 
-/* ─── Custom Cursor ─────────────────────────────────────────────────────── */
-html {
-    cursor: url('/images/cursor/cursor.png') 16 15, auto;
-}
-a, button, [role="button"], input, select, textarea, label,
-.gallery-item, .filter-pill, .nav-link, #nav-burger, #nav-logo {
-    cursor: url('/images/cursor/cursor.png') 16 15, auto;
-}
-a:hover, button:hover, [role="button"]:hover, input:hover, select:hover,
-textarea:hover, label:hover, .gallery-item:hover, .filter-pill:hover,
-.nav-link:hover, #nav-burger:hover, #nav-logo:hover {
-    cursor: url('/images/cursor/cursor-hover.png') 20 19, pointer;
-}
+/* ─── Custom Cursor — injected server-side via asset() in layout templates ── */
 
 /* ─── Base ──────────────────────────────────────────────────────────────── */
 html {
@@ -1166,9 +1154,13 @@ html {
     border-color: #f090c0 !important;
     color: #1a0d14 !important;
 }
-/* SVG icons are dark — they look fine on the pink toolbar already */
+/* Force SVG icons to solid dark color — visible on pink toolbar */
 .EasyMDEContainer .editor-toolbar span[data-img-src]::after {
-    filter: none;
+    filter: brightness(0) opacity(0.7) !important;
+}
+.EasyMDEContainer .editor-toolbar button:hover span[data-img-src]::after,
+.EasyMDEContainer .editor-toolbar button.active span[data-img-src]::after {
+    filter: brightness(0) invert(13%) sepia(60%) saturate(500%) hue-rotate(290deg) !important;
 }
 .EasyMDEContainer .editor-toolbar i.separator {
     border-color: #ffb3d9;

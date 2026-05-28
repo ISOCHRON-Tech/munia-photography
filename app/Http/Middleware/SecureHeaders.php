@@ -27,11 +27,11 @@ class SecureHeaders
             : "script-src 'self' 'unsafe-inline' 'unsafe-eval'";
 
         $styleSrc = $isDev
-            ? "style-src 'self' 'unsafe-inline' http://127.0.0.1:5173 https://fonts.bunny.net"
+            ? "style-src 'self' 'unsafe-inline' http://127.0.0.1:5173 https://fonts.googleapis.com"
             : "style-src 'self' 'unsafe-inline'";
 
         $fontSrc = $isDev
-            ? "font-src 'self' data: https://fonts.bunny.net"
+            ? "font-src 'self' data: https://fonts.googleapis.com https://fonts.gstatic.com"
             : "font-src 'self' data:";
 
         $connectSrc = $isDev
