@@ -12,8 +12,14 @@ if [[ -z "${APP_KEY}" ]]; then
     php artisan key:generate --force
 fi
 
-# Migrations
-php artisan migrate --force
+# Migrations — tolerate "table already exists" when DB volume is pre-populated
+php artisan migrate --force 2>&1 | tee /tmp/migrate.out; \
+MIGRATE_EXIT=${PIPESTATUS[0]}; \
+if [[ $MIGRATE_EXIT -ne 0 ]]; then \
+    grep -q "already exists\|already been" /tmp/migrate.out \
+        && echo "⚠  Some tables already existed — treating as migrated" \
+        || { cat /tmp/migrate.out; exit 1; }; \
+fi
 
 # Storage symlink
 php artisan storage:link --force 2>/dev/null || true

@@ -1,9 +1,10 @@
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { CSSPlugin } from 'gsap/CSSPlugin'
 import * as THREE from 'three'
 import { createHeroAmbient } from './three-scenes'
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger, CSSPlugin)
 
 export function initLanding() {
     runPreloader()

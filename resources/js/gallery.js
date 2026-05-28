@@ -1,9 +1,10 @@
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { CSSPlugin } from 'gsap/CSSPlugin'
 import { animate } from 'motion'
 import { createGalleryScene } from './three-scenes'
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger, CSSPlugin)
 
 // ─── Lightbox state ──────────────────────────────────────────────────────────
 let lightboxActive = false

@@ -24,25 +24,25 @@ class SecureHeaders
 
         $scriptSrc = $isDev
             ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' http://127.0.0.1:5173"
-            : "script-src 'self' 'unsafe-inline' 'unsafe-eval'";
+            : "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com";
 
         $styleSrc = $isDev
             ? "style-src 'self' 'unsafe-inline' http://127.0.0.1:5173 https://fonts.googleapis.com https://cdnjs.cloudflare.com"
-            : "style-src 'self' 'unsafe-inline'";
+            : "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com";
 
         $fontSrc = $isDev
             ? "font-src 'self' data: https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com"
-            : "font-src 'self' data:";
+            : "font-src 'self' data: https://fonts.gstatic.com";
 
         $connectSrc = $isDev
             ? "connect-src 'self' http://127.0.0.1:5173 ws://127.0.0.1:5173"
-            : "connect-src 'self'";
+            : "connect-src 'self' https://static.cloudflareinsights.com";
 
         $r2PublicUrl = rtrim((string) env('R2_PUBLIC_URL', ''), '/');
 
         $imgSrc = $isDev
             ? "img-src 'self' data: blob: http://127.0.0.1:5173 https://picsum.photos https://fastly.picsum.photos" . ($r2PublicUrl ? " $r2PublicUrl" : '')
-            : "img-src 'self' data: blob:" . ($r2PublicUrl ? " $r2PublicUrl" : '');
+            : "img-src 'self' data: blob: https://picsum.photos https://fastly.picsum.photos https://i.picsum.photos" . ($r2PublicUrl ? " $r2PublicUrl" : '');
 
         $cspParts = [
             "default-src 'self'",

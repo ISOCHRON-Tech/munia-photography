@@ -1,9 +1,10 @@
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { CSSPlugin } from 'gsap/CSSPlugin'
 import { animate, stagger } from 'motion'
 import { createStoriesScene } from './three-scenes'
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger, CSSPlugin)
 
 // ─────────────────────────────────────────────────────────────────────────────
 export function initStoriesIndex() {

@@ -1,7 +1,8 @@
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { CSSPlugin } from 'gsap/CSSPlugin'
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger, CSSPlugin)
 
 export function initStory() {
     parallaxBanner()

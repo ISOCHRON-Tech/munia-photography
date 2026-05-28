@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     @stack('before_alpine')
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/js/app.js'])
     <style>
         html, a, button, [role="button"], input, select, textarea, label {
             cursor: url('{{ asset('images/cursor/cursor.png') }}') 16 15, auto;
