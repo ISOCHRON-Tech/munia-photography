@@ -43,7 +43,8 @@ Route::prefix('admin')->name('admin.')->middleware([EnsureAdminAuthenticated::cl
     Route::get('/', fn () => redirect()->route('admin.media.index'));
 
     // Media uploads
-    Route::resource('media', MediaController::class)->only(['index', 'create', 'store', 'destroy']);
+    Route::resource('media', MediaController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+    Route::patch('media/{media}/feature', [MediaController::class, 'feature'])->name('media.feature');
 
     // Stories
     Route::resource('stories', AdminStoryController::class)

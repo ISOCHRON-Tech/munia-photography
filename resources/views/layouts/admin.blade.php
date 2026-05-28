@@ -17,10 +17,27 @@
         </a>
 
         <nav class="flex flex-col gap-1 text-sm" aria-label="Admin navigation">
+            {{-- Gallery: all photos --}}
             <a href="{{ route('admin.media.index') }}"
-               class="px-3 py-2 rounded transition-colors hover:bg-[#2e2e2e] @if(request()->routeIs('admin.media.*')) bg-[#2e2e2e] text-[#c9a84c] @else text-[#9e9e9e] @endif">
-                Media
+               class="px-3 py-2 rounded transition-colors hover:bg-[#2e2e2e]
+                      @if(request()->routeIs('admin.media.*') && request()->query('section') !== 'featured')
+                          bg-[#2e2e2e] text-[#c9a84c]
+                      @else
+                          text-[#9e9e9e]
+                      @endif">
+                Gallery
             </a>
+            {{-- Featured (Home) --}}
+            <a href="{{ route('admin.media.index', ['section' => 'featured']) }}"
+               class="px-3 py-2 rounded transition-colors hover:bg-[#2e2e2e]
+                      @if(request()->query('section') === 'featured')
+                          bg-[#2e2e2e] text-[#c9a84c]
+                      @else
+                          text-[#9e9e9e]
+                      @endif">
+                ★ Featured <span class="opacity-40 text-xs">(Home)</span>
+            </a>
+            {{-- Stories --}}
             <a href="{{ route('admin.stories.index') }}"
                class="px-3 py-2 rounded transition-colors hover:bg-[#2e2e2e] @if(request()->routeIs('admin.stories.*')) bg-[#2e2e2e] text-[#c9a84c] @else text-[#9e9e9e] @endif">
                 Stories

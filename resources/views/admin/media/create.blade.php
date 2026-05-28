@@ -44,11 +44,31 @@
                 <textarea x-model="description" rows="3" maxlength="2000"
                           class="w-full bg-[#1a1a1a] border border-[#2e2e2e] rounded px-4 py-2 text-sm text-[#f5f0eb] focus:outline-none focus:border-[#c9a84c] resize-none"></textarea>
             </div>
-            <div>
-                <label class="block text-xs tracking-widest uppercase text-[#9e9e9e] mb-1">Tags (comma-separated)</label>
-                <input type="text" x-model="tags"
-                       class="w-full bg-[#1a1a1a] border border-[#2e2e2e] rounded px-4 py-2 text-sm text-[#f5f0eb] focus:outline-none focus:border-[#c9a84c]"
-                       placeholder="landscape, travel, 35mm">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs tracking-widest uppercase text-[#9e9e9e] mb-1">Category</label>
+                    <select x-model="categoryId"
+                            class="w-full bg-[#1a1a1a] border border-[#2e2e2e] rounded px-4 py-2 text-sm text-[#f5f0eb] focus:outline-none focus:border-[#c9a84c]">
+                        <option value="">— None —</option>
+                        @foreach($categories as $cat)
+                        <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs tracking-widest uppercase text-[#9e9e9e] mb-1">Tags (comma-separated)</label>
+                    <input type="text" x-model="tags"
+                           class="w-full bg-[#1a1a1a] border border-[#2e2e2e] rounded px-4 py-2 text-sm text-[#f5f0eb] focus:outline-none focus:border-[#c9a84c]"
+                           placeholder="landscape, travel, 35mm">
+                </div>
+            </div>
+            <div class="flex items-center gap-3 pt-1">
+                <input type="checkbox" x-model="isFeatured" id="is_featured"
+                       class="rounded border-[#2e2e2e] bg-[#1a1a1a] text-[#c9a84c] focus:ring-0">
+                <label for="is_featured" class="text-sm text-[#9e9e9e] cursor-pointer">
+                    Mark as <span class="text-[#c9a84c]">Featured</span>
+                    <span class="opacity-60 ml-1">— appears in Home page hero &amp; selected work</span>
+                </label>
             </div>
         </div>
 
@@ -96,6 +116,8 @@ function uploader() {
         title:       '',
         description: '',
         tags:        '',
+        categoryId:  '',
+        isFeatured:  false,,
 
         init() {},
 
@@ -127,6 +149,8 @@ function uploader() {
                 fd.append('title',       this.title)
                 fd.append('description', this.description)
                 this.tags.split(',').map(t => t.trim()).filter(Boolean).forEach(t => fd.append('tags[]', t))
+                if (this.categoryId) fd.append('category_id', this.categoryId)
+                fd.append('is_featured', this.isFeatured ? '1' : '0')
                 fd.append('_token', document.querySelector('meta[name="csrf-token"]').content)
 
                 try {
