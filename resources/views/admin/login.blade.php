@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sign In — Monea</title>
+    <title>Sign In — Munia</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:300,400,500|playfair-display:400,400i&display=swap" rel="stylesheet">
@@ -25,7 +25,7 @@
 
         <div class="relative text-center select-none">
             <span class="block font-display text-[5.5rem] leading-none tracking-[0.2em] uppercase text-[#1a0d14]">
-                Monea
+                Munia
             </span>
             <div class="mt-5 flex items-center gap-4">
                 <div class="h-px flex-1 bg-gradient-to-r from-transparent to-[#2e2e2e]"></div>
@@ -53,7 +53,7 @@
             <div class="lg:hidden text-center mb-14">
                 <a href="{{ route('home') }}"
                    class="font-display text-4xl tracking-[0.25em] uppercase text-[#1a0d14] hover:text-[#ff1493] transition-colors">
-                    Monea
+                    Munia
                 </a>
             </div>
 
@@ -145,7 +145,7 @@
                    class="text-[11px] tracking-wider text-[#333] hover:text-[#6a6a6a] transition-colors">
                     ← Portfolio
                 </a>
-                <span class="text-[11px] text-[#242424] tracking-widest">MONEA / ADMIN</span>
+                <span class="text-[11px] text-[#242424] tracking-widest">MUNIA / ADMIN</span>
             </div>
 
         </div>

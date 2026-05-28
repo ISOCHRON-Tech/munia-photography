@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Admin — @yield('title', 'Dashboard') · Monea</title>
+    <title>Admin — @yield('title', 'Dashboard') · Munia</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
@@ -40,7 +40,7 @@
     <div class="md:hidden fixed inset-x-0 top-0 z-50 h-14 bg-[#ffe4f0] border-b border-[#ffb3d9] flex items-center justify-between px-4">
         <a href="{{ route('home') }}" target="_blank"
            class="font-display text-base tracking-[0.3em] uppercase text-[#1a0d14]">
-            Monea
+            Munia
         </a>
         <button @click="sidebarOpen = !sidebarOpen"
                 class="p-2 text-[#8b3a6e] hover:text-[#1a0d14] transition-colors"
@@ -87,14 +87,14 @@
         </button>
 
         <a href="{{ route('home') }}" target="_blank"
-           :title="sidebarCollapsed ? 'Monea' : ''"
+           :title="sidebarCollapsed ? 'Munia' : ''"
            class="font-display uppercase text-[#1a0d14] hover:text-[#ff1493] transition-colors mb-12 flex items-center justify-center overflow-hidden whitespace-nowrap">
             <span x-show="!sidebarCollapsed"
                   x-transition:enter="transition-opacity duration-150 delay-100"
                   x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
                   x-transition:leave="transition-opacity duration-100"
                   x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-                  class="text-lg tracking-[0.3em]">Monea</span>
+                  class="text-lg tracking-[0.3em]">Munia</span>
             <i x-show="sidebarCollapsed"
                x-transition:enter="transition-opacity duration-150 delay-100"
                x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Monea — Photography & Visual Stories')
+@section('title', 'Munia — Photography & Visual Stories')
 @section('meta_description', 'A photography portfolio and story journal — light, silence, and the moments between.')
 
 @section('content')
@@ -54,8 +54,8 @@
             <span>Visual Stories</span>
         </p>
 
-        <h1 class="hp-hero__name" id="hp-name" aria-label="Monea">
-            <span class="hp-hero__name-m" aria-hidden="true">M</span><span class="hp-hero__name-rest" aria-hidden="true">onea</span>
+        <h1 class="hp-hero__name" id="hp-name" aria-label="Munia">
+            <span class="hp-hero__name-m" aria-hidden="true">M</span><span class="hp-hero__name-rest" aria-hidden="true">unia</span>
         </h1>
 
         <p class="hp-hero__tagline" id="hp-tagline">
@@ -171,7 +171,7 @@
         <span class="hp-marquee__sep">·</span>
         <span class="hp-marquee__word">Light &amp; Shadow</span>
         <span class="hp-marquee__sep">·</span>
-        <span class="hp-marquee__word">Monea · 2026</span>
+        <span class="hp-marquee__word">Munia · 2026</span>
         <span class="hp-marquee__sep">·</span>
         @endfor
     </div>
@@ -286,10 +286,10 @@
         <p class="hp-contact__sub" data-hp-reveal>
             Available for commissions, editorial work, and private collections.
         </p>
-        <a href="mailto:hello@monea.photo"
+        <a href="mailto:hello@munia.photo"
            class="hp-contact__email"
            data-hp-reveal>
-            hello@monea.photo
+            hello@munia.photo
         </a>
         <div class="hp-contact__rule" data-hp-reveal aria-hidden="true"></div>
     </div>

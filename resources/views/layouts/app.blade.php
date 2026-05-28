@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'Monea') — Photography & Stories</title>
+    <title>@yield('title', 'Munia') — Photography & Stories</title>
     <meta name="description" content="@yield('meta_description', 'A personal photography portfolio and story journal.')">
 
     {{-- Open Graph --}}
     <meta property="og:type"  content="website">
-    <meta property="og:title" content="@yield('title', 'Monea')">
+    <meta property="og:title" content="@yield('title', 'Munia')">
     <meta property="og:description" content="@yield('meta_description', 'A personal photography portfolio.')">
     @hasSection('og_image')
     <meta property="og:image" content="@yield('og_image')">
@@ -42,11 +42,11 @@
         <nav class="nav-bar" role="navigation" aria-label="Main navigation">
 
             {{-- Logo --}}
-            <a href="{{ route('home') }}" id="nav-logo" class="nav-logo" aria-label="Monea — Home">
+            <a href="{{ route('home') }}" id="nav-logo" class="nav-logo" aria-label="Munia — Home">
                 <span class="nav-logo__l">M</span><span
-                    class="nav-logo__l">O</span><span
+                    class="nav-logo__l">U</span><span
                     class="nav-logo__l">N</span><span
-                    class="nav-logo__l">E</span><span
+                    class="nav-logo__l">I</span><span
                     class="nav-logo__l">A</span>
             </a>
 
@@ -103,7 +103,7 @@
             </ul>
         </nav>
 
-        <p class="nav-drawer__brand" aria-hidden="true">Monea</p>
+        <p class="nav-drawer__brand" aria-hidden="true">Munia</p>
     </div>
 
     {{-- ══ Main Content ══ --}}
@@ -114,7 +114,7 @@
     {{-- ══ Footer ══ --}}
     <footer class="border-t border-[#2e2e2e] py-12 px-6 md:px-12 mt-24">
         <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-[#9e9e9e] text-xs tracking-widest uppercase">
-            <span>© {{ date('Y') }} Monea</span>
+            <span>© {{ date('Y') }} Munia</span>
             <nav class="flex gap-8" aria-label="Footer navigation">
                 <a href="{{ route('gallery.index') }}" class="hover:text-[#c9a84c] transition-colors">Gallery</a>
                 <a href="{{ route('stories.index') }}" class="hover:text-[#c9a84c] transition-colors">Stories</a>
